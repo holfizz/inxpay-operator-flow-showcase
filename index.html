@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Inxpay — оптимизация операторского флоу</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: radial-gradient(circle at 80% 0%, #173a57 0, #101a2b 34%, #0b101c 72%); color: #eff5ff; }
+    main { max-width: 980px; margin: 0 auto; padding: clamp(32px, 7vw, 88px) 24px; }
+    .eyebrow { color: #84c7ff; font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+    h1 { max-width: 850px; margin: 16px 0; font-size: clamp(34px, 5vw, 64px); line-height: 1.05; letter-spacing: -.045em; }
+    .intro { max-width: 680px; margin: 0 0 42px; color: #adbbd0; font-size: clamp(16px, 2vw, 19px); line-height: 1.55; }
+    .metric { display: inline-flex; gap: 14px; align-items: baseline; margin-bottom: 38px; color: #c7d6e8; }
+    .metric strong { color: #77e3af; font-size: 27px; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    a.card { display: flex; flex-direction: column; min-height: 220px; padding: 28px; border: 1px solid #29415a; border-radius: 20px; background: rgba(26, 43, 65, .8); color: inherit; text-decoration: none; transition: transform .2s, border-color .2s, background .2s; }
+    a.card:hover, a.card:focus-visible { transform: translateY(-3px); border-color: #77e3af; background: #1c334d; outline: none; }
+    .tag { color: #77e3af; font-size: 12px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; }
+    h2 { margin: 18px 0 10px; font-size: 25px; }
+    .card p { margin: 0; color: #adbbd0; line-height: 1.5; }
+    .arrow { margin-top: auto; padding-top: 22px; color: #8dcaff; font-weight: 700; }
+    footer { margin-top: 35px; color: #8799af; font-size: 13px; line-height: 1.5; }
+    @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } a.card { min-height: 185px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="eyebrow">Inxpay · операторский флоу</div>
+    <h1>Как закрывать больше заявок за ту же смену</h1>
+    <p class="intro">Подробный разбор экранов и короткая презентация для обсуждения предложения по оптимизации.</p>
+    <div class="metric"><span>Оценка в материалах</span><strong>100 → 125</strong><span>заявок за смену (+25%)</span></div>
+    <div class="grid">
+      <a class="card" href="./Operator_Flow_Report.html">
+        <span class="tag">Интерактивный разбор</span>
+        <h2>125 заявок вместо 100</h2>
+        <p>Экраны, действия и путь заявки: как устроено сейчас и что предлагается изменить.</p>
+        <span class="arrow">Открыть полный разбор →</span>
+      </a>
+      <a class="card" href="./Operator_Pitch_Deck.html">
+        <span class="tag">Презентация для созвона</span>
+        <h2>Как закрывать заявки быстрее</h2>
+        <p>Короткая версия предложения, которую удобно показывать и обсуждать на встрече.</p>
+        <span class="arrow">Открыть презентацию →</span>
+      </a>
+    </div>
+    <footer>Материалы описывают предложение и расчёт ожидаемого эффекта.</footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,1354 @@
+<title>Как закрывать заявки быстрее</title>
+<style>
+:root{
+  --bg-primary:#000;--bg-secondary:#0b0b0b;--pop-bg:#14161a;
+  --color-brand:#4493f8;--color-success:rgb(39,174,96);--color-warning:rgb(243,134,18);--color-error:rgb(231,76,60);
+  --text-primary:#fff;--text-secondary:rgb(196,196,196);--text-tertiary:rgba(196,196,196,.5);
+  --border-color:rgba(160,160,160,.15);--border-secondary:rgba(160,160,160,.08);
+  --border-radius-sm:12px;--border-radius-md:14px;--border-radius-lg:16px;--border-radius-pill:999px;
+  --font-family-sans:ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Ubuntu,Cantarell,'Noto Sans',Arial,sans-serif;
+  --font-family-mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  --note:#ff9d5c;
+}
+*{box-sizing:border-box}
+body{background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-family-sans);
+  font-size:15px;line-height:1.5;margin:0;-webkit-text-size-adjust:100%}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px 72px}
+.mono{font-family:var(--font-family-mono);font-variant-numeric:tabular-nums}
+
+header.top{padding:52px 0 28px;border-bottom:1px solid var(--border-color);margin-bottom:8px}
+.kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:14px}
+h1{font-size:clamp(28px,5vw,42px);line-height:1.08;letter-spacing:-.02em;font-weight:600;margin:0 0 14px;text-wrap:balance}
+h1 b{color:var(--color-brand);font-weight:600}
+.lede{font-size:15px;color:var(--text-secondary);max-width:58ch;margin:0}
+
+section{padding-top:42px}
+h2{font-size:20px;font-weight:600;margin:0 0 16px;letter-spacing:-.01em}
+h2 .num{color:var(--text-tertiary);font-weight:400;margin-right:9px}
+h3{font-size:15px;font-weight:600;margin:34px 0 12px}
+
+.figures{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:0 0 12px}
+.fig{background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--border-radius-lg);padding:16px}
+.fig .v{font-size:31px;font-weight:600;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.fig .v .from{color:var(--text-tertiary);font-size:20px;font-weight:400}
+.fig .v .arr{color:var(--text-tertiary);font-size:18px;font-weight:400;margin:0 5px}
+.fig.hero .v{color:var(--color-brand)}
+.fig .k{font-size:12.5px;color:var(--text-secondary);margin-top:8px;line-height:1.35}
+.microline{font-size:12.5px;color:var(--text-tertiary);margin:0 0 18px}
+
+.tw{overflow-x:auto;border:1px solid var(--border-color);border-radius:var(--border-radius-lg);background:var(--bg-secondary);margin:0 0 16px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:460px}
+th,td{text-align:left;padding:9px 15px;border-bottom:1px solid var(--border-secondary)}
+thead th{font-size:11px;font-weight:500;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.05em}
+tbody tr:last-child td{border-bottom:0}
+td.n,th.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+.now{color:var(--color-success);font-weight:600}
+tr.hl td{background:rgba(68,147,248,.07)}
+tr.hl td:first-child{font-weight:600}
+
+/* ═══ вёрстка платформы 1в1 ═══ */
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 8px;align-items:start}
+@media (max-width:840px){.ba{grid-template-columns:1fr}}
+.ba-tag{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin:0 0 9px}
+.ba-tag.before{color:var(--text-tertiary)}
+.ba-tag.after{color:var(--color-brand)}
+.ba-tag .cnt{font-variant-numeric:tabular-nums;letter-spacing:0;text-transform:none;font-weight:500;color:var(--text-tertiary);
+  border:1px solid var(--border-color);border-radius:var(--border-radius-pill);padding:1px 9px}
+.ba-tag.after .cnt{color:var(--color-success);border-color:rgba(39,174,96,.4)}
+.stage{background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--border-radius-lg);padding:15px}
+.stage.dim{opacity:.72}
+.stage+.stage{margin-top:9px}
+.stage-cap{font-size:11px;color:var(--text-tertiary);margin:0 0 9px}
+
+/* ═══ выноски ═══ */
+.pop{position:relative;display:block;margin:9px 0 2px;background:var(--pop-bg);
+  border:1px solid rgba(255,157,92,.32);border-radius:10px;padding:7px 11px;
+  font-size:12.5px;line-height:1.4;color:var(--text-secondary)}
+.pop::before{content:"";position:absolute;top:-5px;left:15px;width:8px;height:8px;background:var(--pop-bg);
+  border-left:1px solid rgba(255,157,92,.32);border-top:1px solid rgba(255,157,92,.32);transform:rotate(45deg)}
+.pop b{color:var(--note);font-weight:600;margin-right:5px}
+.pop .g{color:var(--color-success);font-weight:600}
+.pop.ok{border-color:rgba(39,174,96,.3)}
+.pop.ok::before{border-color:rgba(39,174,96,.3)}
+.pop.ok b{color:var(--color-success)}
+
+.ui-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--bg-secondary);
+  border:1px solid var(--border-color);border-radius:var(--border-radius-md);padding:15px 18px;
+  font-size:15px;color:var(--text-primary);font-weight:500;line-height:1.2;text-align:center}
+.ui-btn.w{width:100%}
+.ui-btn.accept{background:var(--color-success);color:#fff}
+.ui-btn.danger{background:var(--color-error);color:#fff}
+.ui-btn.primary{background:var(--color-brand);color:#fff}
+.ui-btn.ghost{background:rgba(11,11,11,.5)}
+.ui-btn.sm{padding:9px 12px;font-size:13.5px}
+.ui-btn.icon{width:30px;height:30px;padding:0;border-color:transparent;background:transparent;font-size:14px}
+
+.ui-card{border:2px solid var(--border-color);border-radius:var(--border-radius-lg);background:var(--bg-primary)}
+.ui-card-h{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:14px;border-bottom:1px solid var(--border-color)}
+.ui-card-id{font-size:16px;font-weight:700}
+.ui-card-hr{display:inline-flex;align-items:center;flex-wrap:wrap;gap:8px 11px}
+.ui-ttl{font-size:13.5px;color:var(--text-secondary)}
+.ui-ttlb{padding:3px 8px;font-size:11.5px;font-weight:600;color:var(--text-secondary);border:1px solid var(--border-color);border-radius:var(--border-radius-sm)}
+.ui-card-c{display:flex;flex-direction:column;padding:14px;gap:13px}
+.ui-cur{display:flex;align-items:center;border:1px solid var(--border-color);border-radius:var(--border-radius-md);overflow:hidden;background:var(--bg-secondary)}
+.ui-cur-l{flex:1;text-align:center;font-size:15px;color:var(--text-secondary);padding:11px 14px;border-right:1px solid var(--border-color)}
+.ui-cur-a{flex:1;text-align:center;font-size:23px;font-weight:700;padding:11px 14px}
+.ui-fields{display:grid;gap:10px}
+.ui-f-l{font-size:11.5px;color:var(--text-secondary);display:block}
+.ui-f-v{font-size:13.5px;font-weight:600;word-break:break-all}
+.ui-f-v.mask{color:var(--text-tertiary);letter-spacing:.04em}
+
+.ui-copy{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px;
+  padding:10px 13px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--border-radius-md);
+  font-size:14.5px;font-weight:600;font-variant-numeric:tabular-nums}
+.ui-copy .ic{color:var(--color-brand);font-size:12.5px;font-weight:500;white-space:nowrap}
+.ui-copy.done{border-color:rgba(39,174,96,.45)}
+.ui-copy.done .ic{color:var(--color-success)}
+.ui-copy.next{box-shadow:inset 2px 0 0 var(--color-brand)}
+.ui-buf{font-size:11.5px;color:var(--text-tertiary);margin-top:7px}
+
+.ui-tiles{display:grid;gap:10px}
+.ui-tile{border:1px solid var(--border-color);border-radius:var(--border-radius-lg);background:var(--bg-secondary);padding:15px}
+.ui-tile b{display:block;font-size:14px;font-weight:600}
+.ui-tile span{font-size:12.5px;color:var(--text-secondary)}
+.ui-tile.act{border-color:var(--color-success)}
+
+.ui-live{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-secondary);background:var(--bg-secondary);
+  border:1px solid var(--border-color);border-radius:var(--border-radius-md);padding:9px 11px}
+.ui-dot{width:7px;height:7px;border-radius:50%;background:var(--color-success);flex:none}
+.ui-dot.w{background:var(--color-warning)}
+.ui-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;font-size:12.5px;border:1px solid var(--border-color);
+  border-radius:var(--border-radius-pill);color:var(--text-secondary);background:var(--bg-secondary)}
+.ui-chip.on{border-color:var(--color-brand);color:var(--color-brand)}
+.ui-chip.ok{border-color:rgba(39,174,96,.45);color:var(--color-success)}
+.ui-seg{display:flex;border:1px solid var(--border-color);border-radius:var(--border-radius-md);overflow:hidden}
+.ui-seg span{flex:1;text-align:center;padding:10px 6px;font-size:13px;color:var(--text-secondary);border-right:1px solid var(--border-color)}
+.ui-seg span:last-child{border-right:0}
+.ui-seg span.on{background:rgba(68,147,248,.12);color:var(--color-brand);font-weight:600}
+.ui-lbl{font-size:11px;color:var(--text-tertiary);margin:0 0 7px;letter-spacing:.05em;text-transform:uppercase}
+.ui-inp{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;background:var(--bg-secondary);
+  border:1px solid var(--border-color);border-radius:var(--border-radius-md);font-size:14.5px}
+.ui-inp.ph{color:var(--text-tertiary)}
+.ui-drop{border:1px dashed var(--border-color);border-radius:var(--border-radius-md);background:var(--bg-secondary);
+  padding:17px;text-align:center;font-size:12.5px;color:var(--text-tertiary)}
+.ui-step{display:flex;align-items:center;gap:9px;margin:0 0 12px;font-size:12.5px;color:var(--text-tertiary)}
+.ui-step i{width:23px;height:23px;border-radius:50%;border:1px solid var(--border-color);display:inline-flex;
+  align-items:center;justify-content:center;font-style:normal;font-size:11.5px;flex:none}
+.ui-step i.on{background:var(--color-brand);border-color:var(--color-brand);color:#fff}
+.ui-reason{font-size:12.5px;color:var(--color-warning);margin:0 0 9px}
+.ui-stack{display:flex;flex-direction:column;gap:9px}
+.ui-row{display:flex;gap:9px}
+.ui-row>*{flex:1}
+.src{font-size:11.5px;color:var(--text-tertiary);margin:14px 0 0;font-family:var(--font-family-mono)}
+
+/* ═══ реальные экраны: шапка страницы, хаб, шаги, степпер ═══ */
+.ui-ph{display:flex;align-items:center;gap:9px;padding-bottom:11px;margin-bottom:13px;border-bottom:1px solid var(--border-color)}
+.ui-ph .back{color:var(--text-tertiary);font-size:16px}
+.ui-ph .ttl{font-size:14.5px;font-weight:700}
+.ui-ph .sub{font-size:11.5px;color:var(--text-tertiary)}
+.ui-ph .sp{margin-left:auto;color:var(--text-tertiary);font-size:15px}
+
+.hub-grid{display:flex;flex-direction:column;gap:8px}
+.hub-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:18px 10px;border:2px solid var(--border-color);border-radius:var(--border-radius-lg);background:var(--bg-primary)}
+.hub-ic{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex:none}
+.hub-ic.g{color:var(--color-success);background:color-mix(in srgb,var(--color-success) 14%,transparent)}
+.hub-ic.s{color:var(--text-secondary);background:color-mix(in srgb,var(--text-secondary) 10%,transparent)}
+.hub-ic.o{color:var(--color-warning);background:color-mix(in srgb,var(--color-warning) 14%,transparent)}
+.hub-card b{font-size:13.5px;font-weight:600}
+.hub-card span{font-size:11px;color:var(--text-secondary)}
+
+.meta-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.mchip{padding:4px 10px;border-radius:999px;font-size:11.5px;font-weight:500}
+.mchip.info{background:color-mix(in srgb,var(--color-brand) 16%,transparent);color:var(--color-brand)}
+.mchip.muted{background:var(--bg-secondary);color:var(--text-secondary);border:1px solid var(--border-color)}
+
+.step-hd{font-size:10.5px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.04em;padding-bottom:6px;border-bottom:1px solid var(--text-secondary);margin:0 0 10px}
+
+.type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:9px}
+.type-opt{display:flex;flex-direction:column;align-items:center;gap:5px;padding:11px 5px;border-radius:var(--border-radius-md);border:1px solid var(--border-color)}
+.type-opt.sel{border:2px solid var(--color-success)}
+.type-ic{width:30px;height:30px;border-radius:var(--border-radius-md);display:flex;align-items:center;justify-content:center;font-size:13px}
+.type-ic.blue{color:var(--color-info);background:color-mix(in srgb,var(--color-info) 18%,transparent)}
+.type-ic.purple{color:var(--color-purple);background:color-mix(in srgb,var(--color-purple) 16%,transparent)}
+.type-ic.orange{color:var(--color-warning);background:color-mix(in srgb,var(--color-warning) 18%,transparent)}
+.type-opt b{font-size:11px;font-weight:600;text-align:center}
+
+.act-stack{display:flex;flex-direction:column;gap:6px}
+.act-btn{display:flex;align-items:center;gap:9px;padding:10px;border:1px solid var(--border-color);border-radius:var(--border-radius-md);opacity:.5}
+.act-ic{width:30px;height:30px;border-radius:var(--border-radius-sm);display:flex;align-items:center;justify-content:center;flex:none;font-size:13px}
+.act-ic.g{color:var(--color-success);background:color-mix(in srgb,var(--color-success) 14%,transparent)}
+.act-ic.r{color:var(--color-error);background:color-mix(in srgb,var(--color-error) 14%,transparent)}
+.act-txt{display:flex;flex-direction:column;text-align:left;flex:1}
+.act-txt b{font-size:12.5px;font-weight:600}
+.act-txt span{font-size:10.5px;color:var(--text-secondary)}
+
+.stp{display:flex;align-items:center;margin-bottom:12px}
+.stp .dot{width:25px;height:25px;border-radius:50%;border:1px solid var(--border-color);display:flex;align-items:center;justify-content:center;font-size:11px;flex:none;color:var(--text-secondary)}
+.stp .dot.cur{background:var(--text-primary);border-color:var(--text-primary);color:var(--bg-primary);font-weight:700}
+.stp .dot.done{background:var(--color-success);border-color:var(--color-success);color:#fff}
+.stp .ln{flex:1;height:2px;background:var(--border-color);margin:0 3px}
+.stp .ln.done{background:var(--color-success)}
+
+.tagrow{display:flex;flex-wrap:wrap;gap:6px}
+.tagchip{min-height:32px;display:inline-flex;align-items:center;padding:0 11px;border-radius:var(--border-radius-md);background:var(--bg-secondary);border:1px solid transparent;font-size:12px}
+.tagchip.sel{border-color:var(--color-success);background:color-mix(in srgb,var(--color-success) 14%,transparent)}
+
+/* ═══ копирки, кнопки исхода, фото ═══ */
+.ui-copy.sm{min-height:38px;font-size:13.5px;padding:8px 12px}
+
+.bignum{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:46px;padding:9px 13px;
+  background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--border-radius-md);
+  font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
+.bignum .ic{font-size:12px;font-weight:500;color:var(--color-brand);white-space:nowrap}
+
+.ui-btn.og{background:transparent;border:2px solid var(--color-success);color:var(--color-success)}
+.ui-btn.og.fill{background:var(--color-success);color:#fff}
+.ui-btn.or{background:transparent;border:2px solid var(--color-error);color:var(--color-error)}
+
+.photo-phone{border:1px dashed var(--border-color);border-radius:var(--border-radius-md);background:var(--bg-secondary);
+  width:118px;height:236px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:5px;text-align:center;font-size:10.5px;color:var(--text-tertiary);padding:8px;flex:none}
+.photo-phone b{font-size:11px;color:var(--color-brand);font-weight:600}
+.photo-row{display:flex;gap:12px;align-items:flex-start}
+
+.ui-inp.lock{background:color-mix(in srgb,var(--color-success) 7%,transparent);border-color:rgba(39,174,96,.35)}
+.ui-inp .lockic{font-size:11px;color:var(--color-success);white-space:nowrap}
+.ui-inp.edit{border-color:rgba(68,147,248,.45)}
+.ui-inp .editic{font-size:11px;color:var(--color-brand);white-space:nowrap}
+
+.nuance{border:1px solid var(--border-color);border-radius:var(--border-radius-md);background:var(--bg-secondary);
+  padding:10px 13px;font-size:11.5px;line-height:2;color:var(--text-secondary)}
+.compare{font-size:11px;color:var(--color-warning);margin-top:5px}
+
+/* ═══ инлайн-кнопка формата ═══ */
+.ui-copy .right{display:inline-flex;align-items:center;gap:9px;flex:none}
+
+/* ═══ цвет источника денег ═══ */
+.srcbox{position:relative;overflow:hidden;border:1px solid var(--border-color);border-radius:var(--border-radius-lg);
+  background:var(--bg-secondary);padding:13px 13px 13px 17px}
+.srcbox .strip{position:absolute;left:0;top:0;bottom:0;width:3px}
+.strip.wal{background:#14b8a6}
+.strip.exc{background:#a855f7}
+.strip.both{background:linear-gradient(180deg,#14b8a6 0 50%,#a855f7 50% 100%)}
+.srcbox.wal{border-color:rgba(20,184,166,.5)}
+.srcbox.exc{border-color:rgba(168,85,247,.5)}
+.ui-chip.wal{border-color:rgba(20,184,166,.6);color:#2dd4bf;background:rgba(20,184,166,.12)}
+.ui-chip.exc{border-color:rgba(168,85,247,.6);color:#c799ff;background:rgba(168,85,247,.12)}
+.srcgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 6px}
+@media (max-width:720px){.srcgrid{grid-template-columns:1fr}}
+.srcbox .t{font-size:13px;font-weight:600;margin-bottom:7px}
+.srcbox .d{font-size:11.5px;color:var(--text-secondary);line-height:1.5}
+.chan{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border-secondary);font-size:13px}
+.chan:last-child{border-bottom:0}
+.chan .sw{width:34px;height:18px;border-radius:5px;flex:none}
+.chan b{font-weight:600}
+.chan span{color:var(--text-secondary);font-size:12.5px}
+
+/* ═══ переключатель источника (рабочий) ═══ */
+.srcswitch{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:11px}
+button.ui-chip{cursor:pointer;font-family:inherit;transition:background .15s ease,border-color .15s ease,color .15s ease}
+/* явная кликабельность чипа источника + стрелка снаружи карточки */
+#srcChip{animation:chipRing 1.5s ease-out infinite}
+#srcChip:hover{filter:brightness(1.12)}
+@keyframes chipRing{0%{box-shadow:0 0 0 0 rgba(68,147,248,.55)}70%{box-shadow:0 0 0 9px rgba(68,147,248,0)}100%{box-shadow:0 0 0 0 rgba(68,147,248,0)}}
+.tapstage{position:relative;overflow:visible}
+.tapcue{position:absolute;top:44px;left:-70px;z-index:6;display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;font-weight:700;letter-spacing:.02em;color:var(--color-brand);white-space:nowrap;pointer-events:none;
+  animation:tapRight 1.05s ease-in-out infinite}
+.tapcue .ar{font-size:17px;line-height:1}
+@keyframes tapRight{0%,100%{transform:translateX(-4px)}50%{transform:translateX(4px)}}
+@media (max-width:840px){.tapcue{position:static;transform:none!important;animation:none;margin:0 0 6px;color:var(--color-brand)}}
+button.ui-chip:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+.swhint{font-size:10.5px;color:var(--text-tertiary)}
+.srcpane{animation:fadein .18s ease}
+@keyframes fadein{from{opacity:.35}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.srcpane{animation:none}}
+
+/* ═══ подсказка смены состояния кнопки ═══ */
+.statehint{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:11.5px;
+  color:var(--text-secondary);line-height:1.45}
+.swb{width:26px;height:16px;border-radius:5px;flex:none}
+.swb.og{border:2px solid var(--color-success);background:transparent}
+.swb.ogf{background:var(--color-success)}
+
+/* ═══ экраны без подсказок ═══ */
+.screens{display:flex;gap:14px;overflow-x:auto;padding:2px 2px 10px}
+.phone{width:288px;flex:none}
+.screens.four .phone{width:226px}
+.screens.four .phone-body{padding:11px 9px;gap:8px}
+.phone-cap{font-size:11px;color:var(--text-tertiary);margin-bottom:8px;letter-spacing:.03em;text-transform:uppercase}
+.phone-body{border:1px solid var(--border-color);border-radius:20px;background:var(--bg-primary);
+  padding:13px 11px;display:flex;flex-direction:column;gap:9px}
+.ph-top{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--text-secondary);
+  padding-bottom:9px;border-bottom:1px solid var(--border-secondary)}
+.ph-top .sp{margin-left:auto}
+.ph-sec{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--text-tertiary);margin:2px 0 -2px}
+.ph-mini{font-size:11px;color:var(--text-tertiary)}
+
+/* ═══ ИИ-причина отмены ═══ */
+.aibox{border:1px solid rgba(68,147,248,.4);background:rgba(68,147,248,.07);
+  border-radius:var(--border-radius-md);padding:11px 13px}
+.aibox .ttl{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--color-brand);margin-bottom:7px}
+.aibox .val{font-size:14px;font-weight:600;margin-bottom:9px}
+
+/* ═══ состояния строки биржи ═══ */
+.fullgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(332px,1fr));gap:14px;margin:0 0 8px}
+.stategrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:12px;margin:0 0 8px}
+.statecard{border:1px solid var(--border-color);border-radius:var(--border-radius-lg);
+  background:var(--bg-secondary);padding:13px;display:flex;flex-direction:column;gap:9px}
+.statecard .cap{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-tertiary)}
+.ui-live.bad{border-color:rgba(231,76,60,.45);color:var(--color-error)}
+.ui-live.warn{border-color:rgba(243,134,18,.45);color:var(--color-warning)}
+.ui-dot.r{background:var(--color-error)}
+.hidreq{border:1px dashed rgba(231,76,60,.5);border-radius:var(--border-radius-md);
+  background:rgba(231,76,60,.06);padding:9px;text-align:center;font-size:11.5px;color:var(--color-error)}
+
+/* ═══ компактная шторка действий над ордером ═══ */
+.sheet{border:1px solid var(--border-color);border-radius:var(--border-radius-md);
+  background:var(--bg-primary);padding:4px 12px}
+.sheet .row{display:flex;align-items:center;gap:9px;padding:8px 0;font-size:12.5px;
+  border-bottom:1px solid var(--border-secondary);color:var(--text-primary)}
+.sheet .row:last-child{border-bottom:0}
+.sheet .row i{font-style:normal;color:var(--text-tertiary);width:15px;flex:none;text-align:center}
+.sheet .row span{color:var(--text-tertiary);font-size:11px;margin-left:auto;text-align:right}
+
+.sheet .row.off{opacity:.4}
+.sheet .row.off i,.sheet .row.off span{color:var(--text-tertiary)}
+
+/* ═══ меню под ⋮ ═══ */
+.menuwrap{position:relative;display:inline-flex}
+.mnu{position:absolute;right:0;top:28px;z-index:40;width:238px;text-align:left;
+  background:var(--bg-secondary);border:1px solid var(--border-color);
+  border-radius:var(--border-radius-md);box-shadow:0 16px 38px rgba(0,0,0,.6);padding:3px 12px}
+.mnu .row{display:flex;align-items:center;gap:9px;padding:8px 0;font-size:12.5px;
+  border-bottom:1px solid var(--border-secondary);color:var(--text-primary);white-space:nowrap}
+.mnu .row:last-child{border-bottom:0}
+.mnu .row i{font-style:normal;color:var(--text-tertiary);width:15px;flex:none;text-align:center}
+.mnu .row.dgr{color:var(--color-error)}
+.ui-btn.icon.on{border-color:var(--color-brand);color:var(--color-brand)}
+
+/* ═══ кошелёк-иконка и подтверждения в поллере ═══ */
+.walbtn{width:34px;height:34px;border-radius:10px;flex:none;cursor:pointer;
+  border:1px solid rgba(20,184,166,.45);background:rgba(20,184,166,.09);color:#2dd4bf;
+  display:flex;align-items:center;justify-content:center}
+.walbtn svg{width:18px;height:18px;display:block}
+.ordrow.pick{cursor:pointer;border-radius:10px;padding:10px;margin:0 -10px;align-items:center}
+.ordrow.pick:hover{background:var(--bg-secondary)}
+.pollwrap{position:relative;max-width:520px}
+[hidden]{display:none!important}
+.pollback{position:absolute;inset:0;background:rgba(0,0,0,.55);border-radius:var(--border-radius-lg);
+  display:flex;align-items:center;justify-content:center;padding:14px;z-index:20}
+.confirm{width:100%;max-width:330px;background:var(--bg-secondary);padding:15px;
+  border:1px solid var(--border-color);border-radius:var(--border-radius-lg);
+  box-shadow:0 18px 44px rgba(0,0,0,.6)}
+.confirm h4{font-size:13.5px;margin:0 0 5px;color:var(--text-primary)}
+.confirm p{font-size:11.5px;color:var(--text-tertiary);margin:0 0 13px;line-height:1.55}
+.confirm .ui-row{gap:8px}
+
+/* ═══ уточнение под полем + сплит-кнопка ═══ */
+.followup{border:1px solid rgba(240,180,41,.4);border-radius:var(--border-radius-md);
+  background:rgba(240,180,41,.06);padding:11px 12px}
+.followup .fu-hd{font-size:12px;color:var(--color-warning);margin-bottom:9px}
+.splitrow{display:flex;gap:6px}
+.ui-btn.split{flex:none;padding-left:12px;padding-right:12px}
+
+.route{display:grid;grid-template-columns:repeat(7,minmax(112px,1fr));gap:6px;min-width:812px;margin:0 0 12px}
+.rt-lbl{grid-column:1/-1;font-size:10px;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--text-tertiary);margin-top:6px}
+.rt{border:1px solid var(--border-color);border-radius:11px;padding:9px 10px;min-width:0;
+  background:var(--bg-secondary);display:flex;flex-direction:column;gap:4px}
+.rt b{font-size:10px;color:var(--text-tertiary);font-weight:600}
+.rt .nm{font-size:11.5px;line-height:1.3;color:var(--text-secondary)}
+.rt.keep{border-color:rgba(39,174,96,.45)}
+.rt.keep .nm{color:var(--text-primary)}
+.rt.gone{border-style:dashed;opacity:.4}
+.rt.gone .nm{text-decoration:line-through}
+.rt.merge{border-color:var(--color-brand);background:rgba(68,147,248,.08)}
+.rt.merge .nm{color:var(--text-primary)}
+.sync{overflow-x:auto;padding:2px 2px 12px}
+.syncgrid{display:grid;grid-auto-flow:column;grid-auto-columns:222px;
+  grid-template-rows:auto auto;gap:10px 12px;width:max-content}
+.sync .phone{width:222px;display:flex;flex-direction:column}
+.sync .phone-body{padding:11px 9px;gap:8px;flex:1}
+.sync .phone-cap{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.tg{font-size:9px;letter-spacing:.05em;padding:2px 6px;border-radius:var(--border-radius-pill);
+  border:1px solid var(--border-color);color:var(--text-tertiary);flex:none}
+.tg.new{border-color:rgba(39,174,96,.5);color:var(--color-success)}
+.tg.gone{border-style:dashed}
+.gone-body{flex:1;border:1px dashed var(--border-color);border-radius:20px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+  padding:16px 13px;text-align:center;color:var(--text-tertiary)}
+.gone-body .gx{width:26px;height:26px;border-radius:50%;border:1px dashed var(--border-color);
+  display:flex;align-items:center;justify-content:center;font-size:11px}
+.gone-body b{font-size:12px;color:var(--text-secondary);font-weight:600}
+.gone-body span:last-child{font-size:11px;line-height:1.4}
+/* компактнее внутри ленты — чтобы обе строки помещались на экран */
+.sync .hub-card{padding:9px}
+.sync .hub-ic{width:24px;height:24px;font-size:11px}
+.sync .type-opt{padding:7px}
+.sync .type-ic{width:22px;height:22px;font-size:11px}
+.sync .act-btn{padding:8px}
+.flowmeta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:0 0 11px;font-size:12.5px;color:var(--text-secondary)}
+.flowmeta .fm b{color:var(--text-primary);font-variant-numeric:tabular-nums}
+.flowmeta .fm b.g{color:var(--color-success)}
+.flowmeta .ar{color:var(--text-tertiary);margin:0 2px}
+.flowmeta .minus{color:var(--color-success);border:1px solid rgba(39,174,96,.4);
+  border-radius:var(--border-radius-pill);padding:2px 10px;font-size:11.5px}
+.flowmeta .fmnote{color:var(--text-tertiary);font-size:11.5px;flex-basis:100%;line-height:1.45}
+
+.goalbox{border:1px solid var(--border-color);border-radius:var(--border-radius-lg);
+  background:var(--bg-secondary);padding:16px 18px;margin:0 0 22px}
+.goalbox h4{margin:0 0 5px;font-size:15px;color:var(--text-primary)}
+.goalbox p{margin:0 0 14px;font-size:13px;color:var(--text-secondary);max-width:72ch;line-height:1.5}
+.goals{display:grid;grid-template-columns:repeat(auto-fit,minmax(214px,1fr));gap:9px}
+.goals .g{display:flex;flex-direction:column;gap:1px;border:1px solid var(--border-color);
+  border-radius:var(--border-radius-md);background:var(--bg-primary);padding:10px 12px}
+.goals .gi{font-size:15px;color:var(--color-brand);margin-bottom:4px;line-height:1}
+.goals b{font-size:12.5px;color:var(--text-primary)}
+.goals .gd{font-size:11px;color:var(--text-tertiary);line-height:1.4}
+.hue{border:1px solid var(--border-color);border-radius:var(--border-radius-lg);
+  background:var(--bg-secondary);padding:16px 18px;margin-top:18px}
+.hue h4{margin:0 0 4px;font-size:15px;color:var(--text-primary)}
+.hue p{margin:0 0 13px;font-size:12.5px;color:var(--text-secondary);max-width:64ch}
+.huerow{display:flex;flex-wrap:wrap;gap:8px}
+.hpill{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--text-secondary);
+  border:1px solid var(--border-color);border-radius:var(--border-radius-pill);padding:5px 11px 5px 7px}
+.hdot{width:13px;height:13px;border-radius:4px;flex:none}
+.hpill.src{border-width:2px;font-weight:600;color:var(--text-primary)}
+.hpill b{font-weight:600}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:9px;margin:2px 0 4px}
+.lgrow{display:flex;gap:11px;align-items:flex-start;border:1px solid var(--border-color);
+  border-radius:var(--border-radius-md);background:var(--bg-secondary);padding:10px 12px}
+.lgsw{width:20px;height:20px;border-radius:6px;flex:none;margin-top:1px;border:1px solid rgba(255,255,255,.08)}
+.lgsw.brd{background:transparent}
+.lgt{font-size:12.5px;font-weight:600;color:var(--text-primary)}
+.lgd{font-size:11px;color:var(--text-tertiary);margin-top:2px;line-height:1.45}
+
+/* ═══ раздел «ожидание»: список «актуально сейчас», таймлайн, тосты, свайпы ═══ */
+.nowcard{border:1px solid var(--border-color);border-radius:var(--border-radius-md);
+  background:var(--bg-primary);padding:10px 11px 10px 13px;position:relative;overflow:hidden;margin-bottom:8px}
+.nowcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--border-color)}
+.nowcard.ready::before{background:var(--color-success)}
+.nowcard.ready{border-color:rgba(39,174,96,.4);background:rgba(39,174,96,.06)}
+.nowcard.wait::before{background:var(--color-warning);opacity:.5}
+.nowtop{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums}
+.nowtop .cur{color:var(--text-tertiary);font-weight:400;font-size:11px}
+.nowstate{margin-left:auto;font-size:11px;font-weight:600;display:flex;align-items:center;gap:5px;white-space:nowrap}
+.nowcard.ready .nowstate{color:var(--color-success)}
+.nowcard.wait .nowstate{color:var(--text-tertiary)}
+.wtimer{font-variant-numeric:tabular-nums}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--color-success);animation:pz 1.4s ease-in-out infinite}
+@keyframes pz{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.72)}}
+.nowsub{font-size:11px;color:var(--text-tertiary);margin-top:3px}
+.nowcta{margin-top:8px}
+
+.timeline{display:flex;flex-direction:column;gap:14px;margin:2px 0 4px}
+.tlrow{}
+.tllbl{font-size:11px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.tlbar{position:relative;height:26px;border-radius:7px;background:var(--bg-secondary);overflow:hidden;
+  border:1px solid var(--border-secondary);min-width:520px}
+.tlseg{position:absolute;top:0;bottom:0;display:flex;align-items:center;justify-content:center;
+  font-size:9.5px;color:#fff;white-space:nowrap;overflow:hidden}
+.tlseg.work{background:var(--color-brand)}
+.tlseg.wait{background:repeating-linear-gradient(45deg,rgba(240,180,41,.28),rgba(240,180,41,.28) 6px,transparent 6px,transparent 12px);color:var(--color-warning)}
+.tlseg.idle{background:transparent;color:var(--text-tertiary);border-left:1px dashed var(--border-color)}
+.tllegend{display:flex;gap:16px;flex-wrap:wrap;font-size:11px;color:var(--text-tertiary);margin-top:10px}
+.tllegend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.tllegend .lw{background:var(--color-brand)}
+.tllegend .lq{background:repeating-linear-gradient(45deg,rgba(240,180,41,.5),rgba(240,180,41,.5) 4px,transparent 4px,transparent 8px)}
+
+.toast{display:flex;align-items:center;gap:10px;background:var(--bg-tooltip,#1c1c22);
+  border:1px solid var(--border-color);border-radius:var(--border-radius-md);padding:9px 12px;
+  font-size:12px;color:var(--text-primary);box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:340px}
+.toast .tmsg{flex:1}
+.toast .tundo{color:var(--color-brand);font-weight:600;white-space:nowrap;cursor:pointer}
+.toast .tbar{position:absolute;left:0;bottom:0;height:2px;background:var(--color-brand);opacity:.5}
+
+.swipewrap{position:relative;border-radius:var(--border-radius-md);overflow:hidden;margin-bottom:9px}
+.swipeback{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;
+  padding:0 15px;font-size:12px;font-weight:600}
+.swipeback .l{color:var(--color-success)}
+.swipeback .r{color:var(--color-error);margin-left:auto}
+.swipefront{position:relative;background:var(--bg-primary);border:1px solid var(--border-color);
+  border-radius:var(--border-radius-md);padding:11px 13px;transform:translateX(46px)}
+.swipefront .st{font-size:12.5px;font-weight:600}
+.swipefront .sb{font-size:11px;color:var(--text-tertiary);margin-top:2px}
+
+/* ═══ поллер: список ордеров с биржи ═══ */
+.poller{border:1px solid var(--border-color);border-radius:var(--border-radius-lg);
+  background:var(--bg-primary);padding:12px}
+.pol-top{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-secondary);margin-bottom:10px}
+.pol-top .sp{margin-left:auto}
+.pol-segs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px}
+.pol-seg{font-size:11px;padding:4px 10px;border-radius:var(--border-radius-pill);
+  border:1px solid var(--border-color);color:var(--text-secondary)}
+.pol-seg.on{border-color:var(--color-brand);color:var(--color-brand);background:rgba(68,147,248,.1)}
+.ordrow{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border-secondary)}
+.ordrow:last-child{border-bottom:0}
+.ordpick{display:flex;flex-direction:column;gap:5px;flex:none}
+.op{width:30px;height:30px;border-radius:9px;border:1px solid var(--border-color);
+  background:var(--bg-secondary);color:var(--text-secondary);font-size:13px;
+  display:flex;align-items:center;justify-content:center}
+.op.sel{border-color:var(--color-success);color:var(--color-success);background:rgba(39,174,96,.12)}
+.op.wal{border-color:rgba(20,184,166,.5);color:#2dd4bf}
+.ordbody{min-width:0;flex:1}
+.ordtop{font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums}
+.ordsub{font-size:11px;color:var(--text-tertiary);margin-top:2px}
+.ordmatch{font-size:11px;margin-top:4px}
+.ordmatch.ok{color:var(--color-success)}
+.ordmatch.no{color:var(--color-warning)}
+.pol-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:11px;padding-top:10px;
+  border-top:1px solid var(--border-secondary);font-size:11px;color:var(--text-tertiary)}
+.pol-legend b{color:var(--text-secondary);font-weight:600}
+
+/* ═══ причина отмены: было → стало ═══ */
+.swap{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.swap .old{font-size:13px;color:var(--text-tertiary);text-decoration:line-through}
+.swap .arr{color:var(--text-tertiary)}
+.swap .new{font-size:14px;font-weight:600;color:var(--color-brand)}
+
+
+
+
+/* ═══ табы ═══ */
+.tabbar{position:sticky;top:0;z-index:60;display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+  background:var(--bg-primary);border-bottom:1px solid var(--border-color);
+  padding:12px 14px;margin:0 -14px 26px;box-shadow:0 6px 18px rgba(0,0,0,.28)}
+.tabbar::before{content:"Разделы";font-size:11px;text-transform:uppercase;letter-spacing:.06em;
+  color:var(--text-tertiary);margin-right:2px}
+.tabbtn{font-size:13.5px;font-weight:600;color:var(--text-secondary);cursor:pointer;
+  border:1px solid var(--border-color);border-radius:var(--border-radius-pill);
+  padding:8px 15px;white-space:nowrap;background:var(--bg-secondary);transition:all .12s}
+.tabbtn:hover{color:var(--text-primary);border-color:var(--text-tertiary)}
+.tabbtn.on{color:#fff;border-color:var(--color-brand);background:var(--color-brand);
+  box-shadow:0 2px 10px rgba(68,147,248,.4)}
+.tabbtn .c{font-size:11px;color:var(--text-tertiary);margin-left:5px}
+.tabbtn.on .c{color:rgba(255,255,255,.85)}
+@media (max-width:640px){.tabbar{overflow-x:auto;flex-wrap:nowrap;gap:6px}.tabbar::before{display:none}}
+
+/* ═══ детальный «мой стакан» ═══ */
+.stacktabs{display:flex;gap:6px;margin:0 0 14px;flex-wrap:wrap}
+.st-seg{font-size:12.5px;padding:6px 13px;border-radius:var(--border-radius-pill);
+  border:1px solid var(--border-color);color:var(--text-secondary)}
+.st-seg.on{border-color:var(--color-brand);color:var(--color-brand);background:rgba(68,147,248,.1)}
+.st-seg .c{color:var(--text-tertiary);margin-left:4px}
+.stacktabs{align-items:center}
+.st-refresh{margin-left:auto;display:inline-flex;align-items:center;gap:6px;cursor:pointer;
+  font-size:12.5px;font-weight:600;color:var(--color-brand);background:rgba(68,147,248,.1);
+  border:1px solid var(--color-brand);border-radius:var(--border-radius-pill);padding:6px 14px}
+.st-refresh:hover{background:rgba(68,147,248,.18)}
+.st-refresh .ri{display:inline-block;transition:transform .2s}
+.st-refresh.spin .ri{animation:spin360 .9s linear}
+@keyframes spin360{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.mscard.flash{animation:msflash .7s ease}
+@keyframes msflash{0%{box-shadow:0 0 0 0 rgba(68,147,248,0)}30%{box-shadow:0 0 0 2px rgba(68,147,248,.5)}100%{box-shadow:0 0 0 0 rgba(68,147,248,0)}}
+@media (max-width:640px){.st-refresh{margin-left:0}}
+.mystack{display:flex;flex-wrap:wrap;gap:14px}
+.mscard{width:338px;border:1px solid var(--border-color);border-radius:var(--border-radius-lg);
+  background:var(--bg-primary);overflow:hidden;position:relative}
+.mscard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--border-color)}
+.mscard.ready::before{background:var(--color-success)}
+.mscard.ready{border-color:rgba(39,174,96,.35)}
+.mscard.wait::before{background:var(--color-warning);opacity:.55}
+.mscard.bad::before{background:var(--color-error)}
+.mscard.bad{border-color:rgba(231,76,60,.35)}
+.mshead{display:flex;align-items:center;gap:8px;padding:11px 13px 11px 15px;border-bottom:1px solid var(--border-secondary)}
+.msid{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums}
+.msnum{font-size:11px;color:var(--text-tertiary)}
+.msttl{margin-left:auto;font-size:10.5px;color:var(--text-tertiary);border:1px solid var(--border-color);border-radius:999px;padding:2px 8px;white-space:nowrap}
+.msbody{padding:11px 13px 13px 15px;display:flex;flex-direction:column;gap:9px}
+.msstate{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;
+  border-radius:var(--border-radius-md);padding:8px 10px}
+.msstate.ready{background:rgba(39,174,96,.1);color:var(--color-success)}
+.msstate.wait{background:rgba(240,180,41,.08);color:var(--color-warning)}
+.msstate.bad{background:rgba(231,76,60,.09);color:var(--color-error)}
+.msstate .wtimer{margin-left:auto;font-weight:600}
+.msmeta{font-size:11.5px;color:var(--text-tertiary);line-height:1.45}
+.mspulse{width:7px;height:7px;border-radius:50%;background:var(--color-success);animation:pz 1.4s ease-in-out infinite;flex:none}
+
+
+/* ═══ операторская преза: скролл, крупно, рассказ ═══ */
+:root{--color-info:#4493f8;--color-purple:#a855f7}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(1200px 700px at 82% -6%,rgba(68,147,248,.10),transparent 60%),radial-gradient(1000px 600px at -5% 106%,rgba(168,85,247,.07),transparent 55%),var(--bg-primary)}
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--color-brand);z-index:100;transition:width .1s}
+.wrapx{max-width:1160px;margin:0 auto;padding:0 28px}
+.eyebrow{font-size:14px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--color-brand);margin:0 0 18px}
+.hero1{min-height:88vh;display:flex;flex-direction:column;justify-content:center;padding:70px 0 40px}
+.hh{font-size:clamp(34px,6vw,66px);font-weight:700;letter-spacing:-.03em;line-height:1.03;margin:0;text-wrap:balance}
+.hh .b{color:var(--color-brand)} .hh .g{color:var(--color-success)}
+.hlead{font-size:clamp(18px,2.3vw,25px);color:var(--text-secondary);line-height:1.5;margin:22px 0 0;max-width:52ch}
+.hlead b{color:var(--text-primary)}
+.bignums{display:flex;gap:16px;flex-wrap:wrap;margin-top:34px}
+.bn{background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:18px;padding:20px 26px}
+.bn .v{font-size:clamp(30px,4vw,46px);font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.bn .v .o{color:var(--text-tertiary);font-size:.6em} .bn .v .a{color:var(--text-tertiary);font-size:.5em;margin:0 7px} .bn .v .n{color:var(--color-success)}
+.bn.blue .v .n{color:var(--color-brand)}
+.bn .k{color:var(--text-secondary);font-size:14px;margin-top:9px}
+.hintdown{margin-top:32px;font-size:15px;color:var(--text-tertiary);animation:bob 1.8s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+@media(prefers-reduced-motion:reduce){.hintdown{animation:none}}
+
+.step{padding:56px 0;border-top:1px solid var(--border-secondary)}
+.step-k{font-family:var(--font-family-mono);font-size:14px;color:var(--text-tertiary);letter-spacing:.1em;margin-bottom:10px}
+.step-h{font-size:clamp(24px,3.4vw,40px);font-weight:700;letter-spacing:-.02em;line-height:1.08;margin:0 0 12px;text-wrap:balance}
+.step-h .keep{color:var(--text-secondary)} .step-h .cut{color:#ff9d5c} .step-h .g{color:var(--color-success)}
+.step-say{font-size:clamp(16px,1.9vw,21px);color:var(--text-secondary);line-height:1.5;margin:0 0 30px;max-width:66ch}
+.step-say b{color:var(--text-primary)} .step-say .cut{color:#ff9d5c;font-weight:600} .step-say .g{color:var(--color-success);font-weight:600}
+
+.ba2{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start;justify-items:center}
+@media(max-width:840px){.ba2{grid-template-columns:1fr;gap:40px}}
+.col{display:flex;flex-direction:column;align-items:center;gap:14px}
+.lab{font-size:13px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:6px 16px;border-radius:999px}
+.col.w .lab{color:#ff9d5c;background:rgba(243,134,18,.12);border:1px solid rgba(243,134,18,.4)}
+.col.n .lab{color:var(--color-success);background:rgba(39,174,96,.12);border:1px solid rgba(39,174,96,.45)}
+.col.keep .lab{color:var(--text-secondary);background:var(--bg-secondary);border:1px solid var(--border-color)}
+.pscale{transform:scale(1.16);transform-origin:top center;margin-bottom:66px}
+@media(max-width:520px){.pscale{transform:scale(.94);margin-bottom:36px}}
+.gonebody{border:1px dashed var(--border-color)!important;background:transparent!important;min-height:300px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;text-align:center;color:var(--text-tertiary)}
+.gonebody .gx{width:42px;height:42px;border-radius:50%;border:1px dashed var(--border-color);display:grid;place-items:center;font-size:17px}
+.gonebody b{color:var(--text-secondary);font-size:15px} .gonebody span{font-size:12.5px;line-height:1.45;max-width:24ch}
+.gonerow{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.gonemini{width:210px;border:1px dashed var(--border-color);border-radius:16px;padding:20px;text-align:center;color:var(--text-tertiary)}
+.gonemini .gx{width:34px;height:34px;border-radius:50%;border:1px dashed var(--border-color);display:grid;place-items:center;margin:0 auto 9px;font-size:14px}
+.gonemini b{display:block;color:var(--text-secondary);font-size:13.5px;margin-bottom:3px} .gonemini span{font-size:12px}
+
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:30px 0 0}
+@media(max-width:700px){.tiles{grid-template-columns:1fr}}
+.tile2{background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:20px;padding:26px}
+.tile2 .v{font-size:clamp(34px,5vw,50px);font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.tile2 .v .o{color:var(--text-tertiary);font-size:.6em} .tile2 .v .a{color:var(--text-tertiary);font-size:.5em;margin:0 8px} .tile2 .v .n{color:var(--color-success)}
+.tile2.blue .v .n{color:var(--color-brand)} .tile2 .k{color:var(--text-secondary);font-size:15px;margin-top:11px}
+.propose{margin-top:30px;background:rgba(68,147,248,.08);border:1px solid rgba(68,147,248,.35);border-radius:18px;padding:22px 24px;font-size:clamp(17px,2vw,21px);line-height:1.5;max-width:760px}
+.propose b{color:var(--color-brand)}
+.taglist{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.taglist .t{font-size:16px;font-weight:700;border-radius:999px;padding:10px 18px}
+.taglist .g{background:rgba(39,174,96,.12);border:1px solid rgba(39,174,96,.4);color:var(--color-success)}
+.taglist .bl{background:rgba(68,147,248,.12);border:1px solid rgba(68,147,248,.4);color:var(--color-brand)}
+.reportblock h2{font-size:20px;margin-top:0} .reportblock h3{font-size:16px} .reportblock .microline{font-size:13px} .reportblock .flowmeta{margin-bottom:12px} .reportblock .pop{max-width:none} .foot{padding:40px 0 90px;color:var(--text-tertiary);font-size:14px}
+.rsn{cursor:pointer;font-family:inherit;color:var(--text-secondary);text-align:left}
+.rsn.sel{color:var(--text-primary)}
+.rsn:focus-visible{outline:2px solid var(--color-brand);outline-offset:2px}
+.fbox{display:flex;flex-direction:column;gap:5px}
+.frow{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:8px;background:var(--bg-secondary);border:1px solid var(--border-color);min-height:34px}
+.fk{flex:none;width:70px;font-size:8.5px;letter-spacing:.03em;text-transform:uppercase;color:var(--text-tertiary);line-height:1.2}
+.fv{flex:1;display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--text-primary);min-width:0}
+.fpill{border:1px solid var(--border-color);border-radius:5px;padding:1px 5px;font-size:9.5px;color:var(--text-secondary);white-space:nowrap}
+.fok{margin-left:auto;font-size:8.5px;color:var(--color-success);white-space:nowrap}
+.fhint{margin-left:auto;font-size:9px;color:var(--text-tertiary);white-space:nowrap}
+.flink{font-size:9.5px;color:var(--color-brand)}
+.rsn{min-height:26px;padding:0 8px;font-size:10.5px}
+.popmini{max-width:320px;background:var(--pop-bg);border:1px solid var(--border-color);border-radius:12px;padding:12px;margin:0 auto}
+.popttl{font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:8px}
+.crow{display:flex;flex-wrap:wrap;align-items:center;gap:5px;padding:6px 8px;border-radius:8px;background:var(--bg-secondary);border:1px solid var(--border-color)}
+.ck{width:100%;font-size:8.5px;letter-spacing:.03em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:1px}
+.cchip{min-height:20px;display:inline-flex;align-items:center;padding:0 6px;border-radius:6px;background:var(--bg-primary);border:1px solid var(--border-color);font-size:10px;color:var(--text-secondary)}
+.cchip.sel{border-color:var(--color-success);color:var(--color-success);background:color-mix(in srgb,var(--color-success) 16%,transparent)}
+.cchip.more{color:var(--color-brand);border-style:dashed}
+.grp{display:flex;align-items:center;gap:7px;margin:4px 0 0;font-size:8.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--text-tertiary)}
+.grp::after{content:"";flex:1;height:1px;background:var(--border-color)}
+.grp b{color:var(--text-secondary);font-weight:600;white-space:nowrap}
+.sync .mscard{width:auto;min-width:0}
+.thumb{width:26px;height:26px;border-radius:5px;flex:none;position:relative;background:linear-gradient(135deg,#2b3037,#16191e);border:1px solid var(--border-color)}
+.thumb::after{content:"";position:absolute;left:4px;right:4px;top:6px;height:2px;background:rgba(196,196,196,.4);box-shadow:0 5px 0 rgba(196,196,196,.26),0 10px 0 rgba(196,196,196,.16)}
+</style>
+<div class="progress" id="prog"></div><section class="hero1"><div class="wrapx"><div class="eyebrow">предложение — новый флоу</div><h1 class="hh">За ту же смену — <span class="b">больше заказов</span></h1><p class="hlead">Я прошёлся по нашему флоу и хочу предложить убрать лишние экраны. Смотрите: сейчас, чтобы закрыть одну заявку, мы проходим <b>7 экранов</b>. Предлагаю оставить <b>4</b>. Дальше — по шагам, покажу как сейчас и как станет.</p><div class="bignums"><div class="bn"><div class="v"><span class="o">7</span><span class="a">→</span><span class="n">4</span></div><div class="k">экрана на заявку</div></div><div class="bn"><div class="v"><span class="o">45</span><span class="a">→</span><span class="n">19</span></div><div class="k">действий на заявку</div></div><div class="bn blue"><div class="v"><span class="o">100</span><span class="a">→</span><span class="n">125</span></div><div class="k">заказов за смену</div></div></div><div class="hintdown">листай вниз ↓</div></div></section><section class="step"><div class="wrapx"><div class="step-k">Экран 1 · стакан заявок</div><h2 class="step-h">Всё начинается со <span class='keep'>стакана</span> — берём заявку</h2><p class="step-say">С этого экрана стартует смена: в стакане висят свободные заявки, берём любую в <b>один тап</b> — «Взять в работу». Тут ничего не меняю, показываю для контекста — дальше пойдёт то, что предлагаю упростить.</p><div class="col keep" style="max-width:340px"><span class="lab">Оставляю как есть</span><div class="pscale"><div class="phone"><div class="phone-body"><div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">Стакан заявок</b><span class="sp">CNY ▾</span></div><div class="ph-mini">В ожидании: 6 заявок · берём в один тап</div><div class="mscard"><div class="mshead"><span class="msid" style="font-size:14px">858 CNY</span><span class="msnum">TTL 19:42</span></div><div class="msbody"><div class="ph-mini">Банковский перевод · ****0858</div><span class="ui-btn accept w sm">Взять в работу</span></div></div><div class="mscard"><div class="mshead"><span class="msid" style="font-size:14px">1&nbsp;033 CNY</span><span class="msnum">TTL 19:41</span></div><div class="msbody"><div class="ph-mini">Банковский перевод · ****1033</div><span class="ui-btn accept w sm">Взять в работу</span></div></div><div class="mscard"><div class="mshead"><span class="msid" style="font-size:14px">674,5 CNY</span><span class="msnum">TTL 19:40</span></div><div class="msbody"><div class="ph-mini">Банковский перевод · ****0674</div><span class="ui-btn accept w sm">Взять в работу</span></div></div></div></div></div></div></div></section><section class="step"><div class="wrapx"><div class="step-k">Экран 2 · проверка счёта</div><h2 class="step-h">Проверку счёта <span class='keep'>не меняю</span></h2><p class="step-say">Проверяешь реквизиты, копируешь по тапу — это и сейчас работает. Тут ничего не трогаю.</p><div class="col keep" style="max-width:340px"><span class="lab">Оставляю как есть</span><div class="pscale"><div class="phone"><div class="phone-body"><div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">Проверка счёта</b><span class="sp">⋮</span></div>
+<div style="display:flex;align-items:baseline;justify-content:space-between"><span style="font-size:17px;font-weight:700">8 420 KGS</span><span class="ph-mini">№ 1305983</span></div>
+<div class="ph-sec">Проверь и вставь в банк</div>
+<div class="ui-stack"><span class="ui-copy next">+7 993 636 59 63 <span class="ic">⧉</span></span><span class="ui-copy sm">Иванов А. С. <span class="ic">⧉</span></span><span class="ui-copy sm">8 420,00 KGS <span class="ic">⧉</span></span></div>
+<div class="ui-buf">В буфере: +7 993 636 59 63</div>
+<div class="ph-mini">Номер существует · Имя совпадает · Блокировок нет</div>
+<span class="ui-btn accept w sm">Проверка пройдена — выполнять</span><span class="ui-btn ghost w sm">Не прошла — в отмену</span></div></div></div></div></div></section><section class="step"><div class="wrapx"><div class="step-k">Экран 3 · заявка</div><h2 class="step-h">Убираю лишний экран-<span class='cut'>хаб</span></h2><p class="step-say">Смотрите: сейчас после «взять в работу» открывается отдельный экран, только чтобы нажать «Продолжить». Предлагаю его выкинуть — заявка сразу открывается с двумя кнопками, <b>«Успех»</b> или <b>«Не вышло»</b>. И сразу <span class='g'>видно статус</span>: пришёл USDT, ждём оплату и так далее.</p><div class="ba2"><div class="col w"><span class="lab">Сейчас</span><div class="pscale"><div class="phone"><div class="phone-body"><div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">Заявка</b><span class="ph-mini">#3f9c1a20-…</span><span class="sp">⋮</span></div>
+<div class="hub-grid" style="grid-template-columns:1fr">
+<div class="hub-card"><span class="hub-ic g">▶</span><b>Продолжить выполнение</b><span>Открыть форму закрытия</span></div>
+<div class="hub-card"><span class="hub-ic s">↩</span><b>Вернуть в стакан</b></div>
+<div class="hub-card"><span class="hub-ic o">⚠</span><b>В конфликтные</b></div></div></div></div></div></div><div class="col n"><span class="lab">Предлагаю</span><div class="pscale"><div class="phone"><div class="phone-body"><div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">8 420 KGS</b><span class="ph-mini">№ 1305983</span><span class="sp">⋮</span></div>
+<div class="ui-live"><span class="ui-dot"></span>USDT 59,940209 ✓ с биржи<span style="margin-left:auto;color:var(--text-tertiary)">▾</span></div>
+<div class="ui-stack"><span class="ui-copy sm">+7 993 636 59 63 <span class="ic">⧉</span></span><span class="ui-copy sm">Иванов А. С. <span class="ic">⧉</span></span><span class="ui-copy sm">8 420,00 KGS <span class="ic">⧉</span></span></div>
+<div class="ui-row"><span class="ui-btn og fill sm" style="flex:1.5;font-size:10.5px">Успех · 59,940209 USDT</span><span class="ui-btn or sm">Не вышло</span></div>
+<span class="ui-btn ghost w sm">Вернуть в стакан</span></div></div></div></div></div></div></section><section class="step"><div class="wrapx"><div class="step-k">Экран 4 · тип и действие</div><h2 class="step-h">«Шаг 1 · Шаг 2» — <span class='cut'>убираю совсем</span></h2><p class="step-say">Ещё один отдельный экран: выбрать тип закрытия и действие. Предлагаю его убрать полностью — <b>тип система знает сама</b>, по тому, откуда идут деньги: биржа или кошелёк.</p><div class="ba2"><div class="col w"><span class="lab">Сейчас</span><div class="pscale"><div class="phone"><div class="phone-body"><div class="meta-row"><span class="mchip info">8 420 KGS</span><span class="mchip muted">Тип: —</span></div>
+<div class="step-hd">Шаг 1 — тип закрытия</div>
+<div class="type-grid" style="grid-template-columns:1fr"><div class="type-opt"><span class="type-ic blue">💳</span><b>Обычная</b></div><div class="type-opt"><span class="type-ic purple">△</span><b>Треугольная</b></div><div class="type-opt"><span class="type-ic orange">💼</span><b>Совмещённая</b></div></div>
+<div class="step-hd" style="margin-top:10px">Шаг 2 — действие</div>
+<div class="act-stack"><div class="act-btn"><span class="act-ic g">✓</span><span class="act-txt"><b>Успешное исполнение</b></span>›</div><div class="act-btn"><span class="act-ic r">✕</span><span class="act-txt"><b>Не получилось</b></span>›</div></div>
+<div class="ph-mini">Сначала выберите тип закрытия.</div></div></div></div></div><div class="col n"><span class="lab">Убираю</span><div class="pscale"><div class="phone"><div class="phone-body gonebody"><span class="gx">✕</span><b>Этот экран убрали</b><span>тип определяется сам — по источнику денег</span></div></div></div></div></div></div></section><section class="step"><div class="wrapx"><div class="step-k">Экран 5 · закрытие</div><h2 class="step-h">Три шага мастера → <span class='g'>одна форма</span></h2><p class="step-say">А вот это главное. Сейчас закрытие — мастер из трёх шагов: сначала «проблема», потом себестоимость (переписываешь USDT руками), потом фото и «Завершить». Предлагаю всё это <b>на одном экране</b>. И USDT <span class='g'>подставляется сам с биржи</span> — руками вбивать не надо.</p><div class="ba2"><div class="col w"><span class="lab">Сейчас</span><div class="pscale"><div class="phone"><div class="phone-body"><div class="stp"><span class="dot cur">1</span><span class="ln"></span><span class="dot">2</span><span class="ln"></span><span class="dot">3</span></div>
+<div class="ui-lbl">Выбери проблему</div><div class="tagrow"><span class="tagchip sel">Без проблем</span><span class="tagchip">Другая валюта</span><span class="tagchip">Переплата</span></div>
+<span class="ui-btn primary w sm">Далее</span><div class="ph-mini">Уже выбрано «Без проблем» — шаг существует, чтобы нажать «Далее»</div></div></div></div></div><div class="col n"><span class="lab">Предлагаю</span><div class="pscale"><div class="phone"><div class="phone-body"><div class="ph-top"><b style="color:var(--text-primary)">Успех · 8 420 KGS</b><span class="sp">✕</span><span>⋮</span></div>
+<div class="srcswitch"><button id="srcChip" class="ui-chip exc" type="button">△ Биржа ▸</button><span class="swhint">тапни — сменит источник</span></div><div class="srcpane" data-pane="exc"><div class="ui-inp" style="font-size:11.5px">Ордер 1305983 · 时来运转</div><div class="ph-sec">Себестоимость, USDT</div><div class="ui-inp lock" style="font-size:11.5px">59,940209 <span class="lockic">✓ с биржи</span></div></div><div class="srcpane" data-pane="wal" hidden><div class="ui-inp" style="font-size:11.5px">KGS-1 · остаток 240 000 <span style="color:var(--text-tertiary)">▾</span></div><div class="ph-sec">Списываем с кошелька</div><div class="ui-inp lock" style="font-size:11.5px">8 420,00 <span class="lockic">= сумме заявки</span></div></div><div class="srcpane" data-pane="both" hidden><div class="ui-inp" style="font-size:11.5px">Ордер 1305983 · 5 200 KGS</div><div class="ui-inp" style="font-size:11.5px">KGS-1 · 3 220 KGS</div><div class="ph-sec">Распределено</div><div class="ui-inp lock" style="font-size:11.5px">8 420 / 8 420 KGS <span class="lockic">✓ сходится</span></div></div>
+<div class="ph-sec">Кому платили</div><div class="ui-inp lock" style="font-size:11.5px"><b>Иванов А. С.</b> <span class="lockic">···63</span></div>
+<div class="photo-phone" style="height:88px;padding:9px"><b>Из буфера</b><span>Камера</span></div>
+<span class="ui-btn og fill w sm srcbtn" style="font-size:10.5px">Закрыть · 8 420 KGS / 59,940209 USDT</span></div></div></div></div></div></div></section><section class="step"><div class="wrapx"><div class="step-k">Экраны 6–7 · тоже убираю</div><h2 class="step-h">И ещё два шага мастера — <span class="cut">в ту же форму</span></h2><p class="step-say">Отдельный экран, где вбиваешь USDT руками, и отдельный экран с фото — предлагаю не делать отдельными. USDT приходит сам, фото цепляется прямо в форме закрытия.</p><div class="gonerow"><div class="gonemini"><div class="gx">✕</div><b>Ввод USDT руками</b><span>приходит сам с биржи</span></div><div class="gonemini"><div class="gx">✕</div><b>Отдельный экран с фото</b><span>фото — в форме закрытия</span></div></div></div></section><section class="step"><div class="wrapx"><div class="step-k">Отдельный кейс · кто работает через Байбит</div><h2 class="step-h">Шесть экранов на заявку → <span class="g">три</span></h2><p class="step-say">Кто работает через <b>Байбит</b>, закрывает треугольной через контрагента, и почти всегда есть причина: контрагент заплатил <b>в другой валюте</b> (заявка в IDR, чек в KGS) или мы <b>округлили</b> и вышла переплата (984,24 → 985 AED). IBAN или карта, IDR или AED — путь один и тот же. Причины <b>оставляю все четыре</b>, под каждой свой набор полей: это разные флоу, мешать нельзя. Меняю только упаковку.</p><div class="col n" style="max-width:340px;margin:0 auto"><span class="lab">Предлагаю — экран 3: всё закрытие в одной форме</span><div class="pscale"><div class="phone"><div class="phone-body"><div class="ph-top"><b style="color:var(--text-primary)">Успешное исполнение</b><span class="sp">✕</span></div><div class="tagrow" id="rsnRow"><button type="button" class="tagchip rsn" data-r="none">Нет проблем</button><button type="button" class="tagchip rsn sel" data-r="cur">Другая валюта</button><button type="button" class="tagchip rsn" data-r="over">Переплата</button><button type="button" class="tagchip rsn" data-r="both">Валюта + переплата</button></div><div class="ph-mini" style="color:var(--color-brand)">тапни причину — набор полей сменится</div><div class="rpane" data-r="none" hidden><div class="fbox"><div class="grp"><b>1 · Данные лота</b></div><div class="frow"><span class="fk">Себест., USDT</span><span class="fv"><b>59,940209</b><span class="fok">✓ Байбит · порог 17 197,60</span></span></div><div class="grp"><b>2 · Сам чек</b></div><div class="frow"><span class="fk">Чек *</span><span class="fv"><span class="thumb"></span><span style="font-size:10.5px;color:var(--color-success)">✓ прочитан</span><span class="fhint">＋ ещё</span></span></div><div class="frow"><span class="fk">Комментарий</span><span class="fv"><span style="color:var(--text-tertiary);font-size:10.5px">необязательно</span></span></div></div><div class="ui-row" style="margin-top:2px"><span class="ui-btn og fill sm" style="flex:1.7;font-size:10.5px">Завершить</span><span class="ui-btn or sm" style="font-size:9.5px">Задержка</span></div></div><div class="rpane" data-r="cur"><div class="fbox"><div class="grp"><b>1 · Что на чеке</b></div><div class="frow"><span class="fk">Сумма с чека</span><span class="fv"><b>9 179</b><span class="fhint">+ ещё чек</span></span></div><div class="crow"><span class="ck">Валюта чека — подставлена с чека</span><span class="cchip sel">KGS</span><span class="cchip">RUB</span><span class="cchip">USD</span><span class="cchip">CNY</span><span class="cchip more">ещё 5</span></div><div class="frow"><span class="fk">Себест., USDT</span><span class="fv"><b>105,9930</b><span class="fok">✓ Байбит · порог 17 197,60</span></span></div><div class="grp"><b>2 · Сам чек</b></div><div class="frow"><span class="fk">Чек KGS *</span><span class="fv"><span class="thumb"></span><span style="font-size:10.5px;color:var(--color-success)">✓ прочитан</span><span class="fhint">＋ ещё</span></span></div><div class="frow"><span class="fk">Комментарий</span><span class="fv"><span style="color:var(--text-tertiary);font-size:10.5px">необязательно</span></span></div></div><div class="ui-row" style="margin-top:2px"><span class="ui-btn og fill sm" style="flex:1.7;font-size:10.5px">Завершить</span><span class="ui-btn or sm" style="font-size:9.5px">Задержка</span></div></div><div class="rpane" data-r="over" hidden><div class="fbox"><div class="grp"><b>1 · Данные лота</b></div><div class="frow"><span class="fk">Себест., USDT</span><span class="fv"><b>270,53</b><span class="fok">✓ Байбит · порог 3,64</span></span></div><div class="frow"><span class="fk">Потрачено</span><span class="fv"><b>985</b> <span class="fpill">AED</span></span></div><div class="frow"><span class="fk">Курс</span><span class="fv"><b>3,6410</b><span class="fhint">АВТО</span></span></div><div class="grp"><b>2 · Сам чек</b></div><div class="frow"><span class="fk">Чек AED *</span><span class="fv"><span class="thumb"></span><span style="font-size:10.5px;color:var(--color-success)">✓ прочитан</span><span class="fhint">＋ ещё</span></span></div><div class="frow"><span class="fv"><span style="font-size:10.5px">☑ Получил больше фиата, чем обменивал</span></span></div><div class="frow"><span class="fk">Комментарий</span><span class="fv"><span style="color:var(--text-tertiary);font-size:10.5px">необязательно</span></span></div></div><div class="ui-row" style="margin-top:2px"><span class="ui-btn og fill sm" style="flex:1.7;font-size:10.5px">Завершить</span><span class="ui-btn or sm" style="font-size:9.5px">Задержка</span></div></div><div class="rpane" data-r="both" hidden><div class="fbox"><div class="grp"><b>1 · Что на чеке</b></div><div class="frow"><span class="fk">Сумма с чека</span><span class="fv"><b>9 179</b><span class="fhint">+ ещё чек</span></span></div><div class="crow"><span class="ck">Валюта чека — подставлена с чека</span><span class="cchip sel">KGS</span><span class="cchip">RUB</span><span class="cchip">USD</span><span class="cchip">CNY</span><span class="cchip more">ещё 5</span></div><div class="frow"><span class="fk">Себест., USDT</span><span class="fv"><b>105,9930</b><span class="fok">✓ Байбит · порог 17 197,60</span></span></div><div class="frow"><span class="fk">Потрачено</span><span class="fv"><b>9 179</b> <span class="fpill">KGS</span></span></div><div class="frow"><span class="fk">Курс</span><span class="fv"><b>86,68</b><span class="fhint">АВТО</span></span></div><div class="grp"><b>2 · Сам чек</b></div><div class="frow"><span class="fk">Чек KGS *</span><span class="fv"><span class="thumb"></span><span style="font-size:10.5px;color:var(--color-success)">✓ прочитан</span><span class="fhint">＋ ещё</span></span></div><div class="frow"><span class="fv"><span style="font-size:10.5px">☑ Получил больше фиата, чем обменивал</span></span></div><div class="frow"><span class="fk">Комментарий</span><span class="fv"><span style="color:var(--text-tertiary);font-size:10.5px">необязательно</span></span></div></div><div class="ui-row" style="margin-top:2px"><span class="ui-btn og fill sm" style="flex:1.7;font-size:10.5px">Завершить</span><span class="ui-btn or sm" style="font-size:9.5px">Задержка</span></div></div></div></div></div></div><p class="step-say" style="margin-top:20px">Порядок как в проде: сначала <b>что на чеке</b>, потом <b>сам чек</b> — иначе проверке нечего сверять. Валюта — чипами, без выпадашек, и уже подставлена с чека. Чек — не отдельный этап, а строка: вставил из буфера в один тап, рядом миниатюра и «прочитан». Себестоимость приходит с ордера Байбита. Всё остальное на месте: все девять валют, второй чек, порог, потрачено фиата, АВТО-курс, галка «получил больше фиата», комментарий, «Завершить» и «Задержка».</p><p class="step-say" style="margin-top:26px"><b>Весь путь целиком.</b> Сверху как сейчас — шесть экранов подряд, снизу как предлагаю — три. Важно не запутаться в цифрах: <b>шесть → три</b> — это счёт по всему пути, а <b>три → один</b> — про мастер закрытия. Форма выше и есть тот самый третий экран, в который схлопнулись последние три. Полосы листаются вправо.</p><div class="sync"><div style="display:flex;gap:14px;width:max-content;align-items:flex-start"><div><div class="phone-cap"><span class="tg now">сейчас</span>1 · Мои заявки</div><div class="phone"><div class="phone-body"><div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">Мои заявки</b><span class="sp">5</span></div><div class="mscard"><div class="mshead"><span class="msid" style="font-size:13px">1 805 950,38 IDR</span><span class="msnum">2:56:40</span></div><div class="msbody"><div class="ph-mini">Карта · 4640053185538003 · CHERNINA OXANA</div></div></div><span class="ui-btn accept w sm">Продолжить</span></div></div></div><div><div class="phone-cap"><span class="tg now">сейчас</span>2 · Заявка (хаб)</div><div class="phone"><div class="phone-body"><div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">Заявка</b><span class="sp">⋮</span></div><div class="hub-grid" style="grid-template-columns:1fr"><div class="hub-card"><span class="hub-ic g">▶</span><b>Продолжить выполнение</b><span>Открыть форму закрытия</span></div><div class="hub-card"><span class="hub-ic s">↩</span><b>Вернуть в стакан</b></div><div class="hub-card"><span class="hub-ic o">⚠</span><b>В конфликтные</b></div></div></div></div></div><div><div class="phone-cap"><span class="tg now">сейчас</span>3 · Тип и действие</div><div class="phone"><div class="phone-body"><div class="meta-row"><span class="mchip info">1 805 950,38 IDR</span><span class="mchip muted">Регион: IDR</span></div><div class="step-hd">Шаг 1 — тип закрытия</div><div class="type-grid" style="grid-template-columns:1fr"><div class="type-opt"><span class="type-ic blue">💳</span><b>Обычная</b></div><div class="type-opt"><span class="type-ic purple">△</span><b>Треугольная</b></div><div class="type-opt"><span class="type-ic orange">💼</span><b>Совмещённая</b></div></div><div class="step-hd" style="margin-top:10px">Шаг 2 — действие</div><div class="act-stack"><div class="act-btn"><span class="act-ic g">✓</span><span class="act-txt"><b>Успешное исполнение</b></span>›</div><div class="act-btn"><span class="act-ic r">✕</span><span class="act-txt"><b>Неуспешное исполнение</b></span>›</div></div></div></div></div><div><div class="phone-cap"><span class="tg now">сейчас</span>4 · Закрытие · проблема</div><div class="phone"><div class="phone-body"><div class="stp"><span class="dot cur">1</span><span class="ln"></span><span class="dot">2</span><span class="ln"></span><span class="dot">3</span></div><div class="ui-lbl">Выберите проблему</div><div class="tagrow"><span class="tagchip">Нет проблем</span><span class="tagchip sel">Несоответствие валюты документа</span><span class="tagchip">Переплата</span><span class="tagchip">Несоответствие валюты + переплата</span></div><div class="ph-mini" style="color:var(--color-warning)">При смене проблемы черновик шагов 2 и 3 сбрасывается</div><span class="ui-btn primary w sm">Далее</span></div></div></div><div><div class="phone-cap"><span class="tg now">сейчас</span>5 · Что на скриншоте</div><div class="phone"><div class="phone-body"><div class="stp"><span class="dot">1</span><span class="ln"></span><span class="dot cur">2</span><span class="ln"></span><span class="dot">3</span></div><div class="ph-sec">Валюта 1 *</div><div class="tagrow"><span class="tagchip">USD</span><span class="tagchip">EUR</span><span class="tagchip">CNY</span><span class="tagchip">RUB</span><span class="tagchip">GEL</span><span class="tagchip">MDL</span><span class="tagchip sel">KGS</span><span class="tagchip">UAH</span><span class="tagchip">KZT</span></div><div class="flink">Не нашёл? Выбрать другую валюту →</div><div class="ph-sec">Суммы по каждому чеку</div><div class="ui-inp" style="font-size:11.5px">9 179 <span style="color:var(--text-tertiary)">KGS</span></div><div class="ui-row"><span class="ui-btn ghost sm" style="font-size:10px">+ Добавить чек</span><span class="ui-btn ghost sm" style="font-size:10px">+ Добавить валюту</span></div><div class="ph-sec">Данные лота</div><div class="ui-inp" style="font-size:11.5px">105,9930 <span style="color:var(--text-tertiary)">USDT</span></div><div class="ph-mini">Порог рентабельности: 17 197,60</div><span class="ui-btn primary w sm">Далее</span></div></div></div><div><div class="phone-cap"><span class="tg now">сейчас</span>6 · Завершение</div><div class="phone"><div class="phone-body"><div class="stp"><span class="dot">1</span><span class="ln"></span><span class="dot">2</span><span class="ln"></span><span class="dot cur">3</span></div><div class="ph-sec">Завершение исполнения</div><div class="ph-mini">Загрузите скриншоты и при необходимости оставьте комментарий</div><div class="ph-sec">Чеки KGS *</div><div class="photo-phone" style="height:64px;padding:8px"><b>Чек из чата Байбита</b><span>＋</span></div><div class="ph-sec">Комментарий</div><div class="ui-inp" style="font-size:11px;color:var(--text-tertiary)">Опционально…</div><div class="ph-mini" style="color:var(--color-warning)">После завершения скриншоты будут автоматически проанализированы</div><div class="ui-row"><span class="ui-btn og fill sm" style="flex:1.5;font-size:10.5px">Завершить</span><span class="ui-btn or sm" style="font-size:9.5px">Задержка</span></div></div></div></div></div></div><div class="sync"><div style="display:flex;gap:14px;width:max-content;align-items:flex-start"><div><div class="phone-cap"><span class="tg new">станет</span>1 · Мои заявки</div><div class="phone"><div class="phone-body"><div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">Мои заявки</b><span class="sp" style="color:var(--color-brand)">⟳</span></div><div class="mscard ready"><div class="mshead"><span class="msid" style="font-size:13px">1 805 950,38 IDR</span><span class="msnum">2:56:40</span></div><div class="msbody"><div class="msstate ready">✓ USDT с Байбита пришёл — можно закрывать</div></div></div><span class="ui-btn accept w sm">Закрыть</span><div class="ph-mini">видно, какая готова — не надо открывать каждую</div></div></div></div><div><div class="phone-cap"><span class="tg new">станет</span>2 · Заявка</div><div class="phone"><div class="phone-body"><div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">1 805 950,38 IDR</b><span class="sp">⋮</span></div><div class="ui-live"><span class="ui-dot"></span>USDT 105,9930 ✓ с ордера Байбита</div><div class="ui-stack"><span class="ui-copy sm">4640053185538003 <span class="ic">⧉</span></span><span class="ui-copy sm">CHERNINA OXANA <span class="ic">⧉</span></span></div><div class="ui-row"><span class="ui-btn og fill sm" style="flex:1.5;font-size:10.5px">Успех</span><span class="ui-btn or sm">Не вышло</span></div><span class="ui-btn ghost w sm">Вернуть в стакан</span><div class="ph-mini">хаб и экран «тип/действие» не нужны — тип понятен по ордеру</div></div></div></div><div><div class="phone-cap"><span class="tg new">станет</span>3 · Одна форма закрытия</div><div class="phone"><div class="phone-body"><div class="ph-top"><b style="color:var(--text-primary)">Успешное исполнение</b><span class="sp">✕</span></div><div class="tagrow"><span class="tagchip">Нет проблем</span><span class="tagchip sel">Другая валюта</span><span class="tagchip">Переплата</span><span class="tagchip">Валюта + переплата</span></div><div class="fbox"><div class="grp"><b>1 · Что на чеке</b></div><div class="frow"><span class="fk">Сумма с чека</span><span class="fv"><b>9 179</b><span class="fhint">+ ещё чек</span></span></div><div class="crow"><span class="ck">Валюта чека — подставлена с чека</span><span class="cchip sel">KGS</span><span class="cchip">RUB</span><span class="cchip">USD</span><span class="cchip">CNY</span><span class="cchip more">ещё 5</span></div><div class="frow"><span class="fk">Себест., USDT</span><span class="fv"><b>105,9930</b><span class="fok">✓ Байбит · порог 17 197,60</span></span></div><div class="grp"><b>2 · Сам чек</b></div><div class="frow"><span class="fk">Чек KGS *</span><span class="fv"><span class="thumb"></span><span style="font-size:10.5px;color:var(--color-success)">✓ прочитан</span><span class="fhint">＋ ещё</span></span></div><div class="frow"><span class="fk">Комментарий</span><span class="fv"><span style="color:var(--text-tertiary);font-size:10.5px">необязательно</span></span></div></div><div class="ui-row" style="margin-top:2px"><span class="ui-btn og fill sm" style="flex:1.7;font-size:10.5px">Завершить</span><span class="ui-btn or sm" style="font-size:9.5px">Задержка</span></div></div></div></div></div></div><div class="gonerow" style="margin-top:6px"><div class="gonemini" style="border-style:solid"><div class="gx" style="color:var(--color-success);border-color:rgba(39,174,96,.45)">✓</div><b>1 → 1</b><span>Мои заявки — не трогаю</span></div><div class="gonemini"><div class="gx">✕</div><b>2 + 3 → 2</b><span>хаб и «тип / действие» убраны — заявка сразу с кнопками</span></div><div class="gonemini"><div class="gx">✕</div><b>4 + 5 + 6 → 3</b><span>мастер закрытия — одна форма, шаги внутри</span></div></div></div></section><section class="step"><div class="wrapx"><div class="step-k">Бонус · мои заявки</div><h2 class="step-h">Видно, <span class='g'>какая заявка где и что с ней</span></h2><p class="step-say">И ещё предлагаю: в «Моих заявках» сразу показывать статус. Какая <b>готова к закрытию</b> — наверх, с кнопкой. Какая ждёт оплату — с таймером. Какая в чёрном списке — красным. Сейчас, чтобы это понять, приходится открывать каждую. А так — одна кнопка «Обновить», и видно всё.</p><div class="ba2"><div class="col w"><span class="lab">Сейчас</span><div class="pscale"><div class="phone"><div class="phone-body"><div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">Мои заявки</b><span class="sp">6</span></div>
+<div class="ui-stack">
+<span class="ui-copy sm" style="justify-content:flex-start">8 420 KGS<span style="margin-left:auto;color:var(--text-tertiary);font-size:11px">открой — узнаешь статус</span></span>
+<span class="ui-copy sm" style="justify-content:flex-start">3 100 KGS<span style="margin-left:auto;color:var(--text-tertiary);font-size:11px">открой — узнаешь статус</span></span>
+<span class="ui-copy sm" style="justify-content:flex-start">12 750 KGS<span style="margin-left:auto;color:var(--text-tertiary);font-size:11px">открой — узнаешь статус</span></span>
+<span class="ui-copy sm" style="justify-content:flex-start">777 CNY<span style="margin-left:auto;color:var(--text-tertiary);font-size:11px">открой — узнаешь статус</span></span></div>
+<div class="ph-mini" style="color:var(--color-warning)">какая готова — непонятно, тыкаешь по очереди</div></div></div></div></div><div class="col n"><span class="lab">Предлагаю</span><div class="pscale"><div class="phone"><div class="phone-body"><div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">Мои заявки</b><span class="sp" style="color:var(--color-brand)">⟳ Обновить</span></div>
+<div class="ph-sec">Готово закрыть · 1</div>
+<div class="mscard ready"><div class="mshead"><span class="msid">3 100 KGS</span><span class="msnum">№1305984</span><span class="msttl">TTL 3:20</span></div>
+<div class="msbody"><div class="msstate ready"><span class="mspulse"></span>Готово · USDT пришёл</div><div style="font-size:11.5px;color:var(--text-tertiary)">биржа · 22,05 USDT · курс 6,68</div><span class="ui-btn og fill w sm">Закрыть · 3 100 KGS</span></div></div>
+<div class="ph-sec" style="margin-top:10px">Ждут · 3</div>
+<div class="mscard wait" style="margin-bottom:8px"><div class="mshead"><span class="msid" style="font-size:14px">8 420 KGS</span><span class="msnum">№1305983</span><span class="msttl">TTL 0:41</span></div><div class="msbody"><div class="msstate wait">⏳ Ждём USDT<span class="wtimer">0:14</span></div></div></div>
+<div class="mscard wait" style="margin-bottom:8px"><div class="mshead"><span class="msid" style="font-size:14px">12 750 KGS</span><span class="msnum">№1305985</span><span class="msttl">TTL 5:02</span></div><div class="msbody"><div class="msstate wait">⏳ Ждём оплату<span class="wtimer">0:48</span></div></div></div>
+<div class="mscard bad"><div class="mshead"><span class="msid" style="font-size:14px">5 900 KGS</span><span class="msnum">№1305987</span></div><div class="msbody"><div class="msstate bad">⛔ Контрагент в ЧС</div></div></div></div></div></div></div></div></div></section><section class="step"><div class="wrapx"><div class="step-k">Весь путь целиком · 3 сценария</div><h2 class="step-h">Как это выглядит <span class="g">целиком</span></h2><p class="step-say">Весь путь по трём сценариям — это ~90% смены: успех через биржу, через кошелёк и неуспех. Сверху «сейчас», прямо под ним — «станет». Листай вправо внутри блока.</p><div class="reportblock"><h2><span class="num">08</span>Три сценария — это 90% смены</h2>
+  <p class="microline">Три сценария — 90% смены. Колонка = шаг, сверху «сейчас», снизу «станет».</p>
+  <div class="pop ok" style="max-width:none"><b>↑</b> Стакан и проверка (01–02) не меняются — в обоих рядах одинаковы.</div>
+
+<h3>Успех через биржу · треугольная</h3>
+<div class="flowmeta">
+  <span class="fm"><b>7</b> экранов <span class="ar">→</span> <b class="g">4</b></span>
+  <span class="fm"><b>45</b> действий <span class="ar">→</span> <b class="g">19</b></span>
+  <span class="fm minus">кликов меньше на 26</span>
+  <span class="fmnote">USDT больше не переписывается глазами из HTX — приходит с биржи и подставляется в закрытую от правки строку.</span>
+</div>
+<div class="sync">
+    <div class="syncgrid">
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>1 · Стакан</div>
+        <div class="phone-body">
+          <div class="ph-top"><span class="seg"><span class="on" style="padding:2px 7px">KGS</span></span><span class="ui-dot"></span>live<span class="sp">🔍</span></div>
+          <div class="ui-card">
+            <div class="ui-card-h" style="padding:10px"><span class="ui-card-id">8 420 KGS</span>
+              <span class="ui-card-hr"><span class="ui-ttl">TTL 41</span></span></div>
+            <div class="ui-card-c" style="padding:10px;gap:8px">
+              <div class="ui-fields" style="gap:6px">
+                <div><span class="ui-f-l">Способ:</span><span class="ui-f-v">Перевод по номеру</span></div>
+                <div><span class="ui-f-l">Телефон:</span><span class="ui-f-v mask">+7 ··· ··· ·· 63</span></div>
+                <div><span class="ui-f-l">Имя:</span><span class="ui-f-v mask">И···· А. С.</span></div>
+                <div><span class="ui-f-l">Банк:</span><span class="ui-f-v">Т-Банк</span></div>
+              </div>
+              <span class="ui-btn accept w sm">Взять в работу</span>
+            </div>
+          </div>
+          <div class="ui-card" style="opacity:.45">
+            <div class="ui-card-h" style="padding:10px"><span class="ui-card-id">3 100 KGS</span>
+              <span class="ui-card-hr"><span class="ui-ttl">TTL 22</span></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg new">станет</span>1 · Стакан</div>
+        <div class="phone-body">
+          <div class="ph-top"><span class="seg"><span class="on" style="padding:2px 7px">KGS</span></span><span class="ui-dot"></span>live<span class="sp">🔍</span></div>
+          <div class="ph-mini">В работе: 8 420 · 3 100 · 12 750</div>
+          <div class="ui-card">
+            <div class="ui-card-h" style="padding:10px"><span class="ui-card-id">8 420 KGS</span>
+              <span class="ui-card-hr"><span class="ui-ttl">TTL 41</span></span></div>
+            <div class="ui-card-c" style="padding:10px;gap:8px">
+              <div class="ui-fields" style="gap:6px">
+                <div><span class="ui-f-l">Способ:</span><span class="ui-f-v">Перевод по номеру</span></div>
+                <div><span class="ui-f-l">Телефон:</span><span class="ui-f-v mask">+7 ··· ··· ·· 63</span></div>
+                <div><span class="ui-f-l">Имя:</span><span class="ui-f-v mask">И···· А. С.</span></div>
+                <div><span class="ui-f-l">Банк:</span><span class="ui-f-v">Т-Банк</span></div>
+              </div>
+              <span class="ui-btn accept w sm">Взять в работу</span>
+            </div>
+          </div>
+          <div class="ui-card" style="opacity:.45">
+            <div class="ui-card-h" style="padding:10px"><span class="ui-card-id">3 100 KGS</span>
+              <span class="ui-card-hr"><span class="ui-ttl">TTL 22</span></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>2 · Проверка счёта</div>
+        <div class="phone-body">
+          <div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">Проверка счёта</b><span class="sp">⋮</span></div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <span style="font-size:17px;font-weight:700">8 420 KGS</span>
+            <span class="ph-mini">№ 1305983</span>
+          </div>
+          <div class="ph-sec">Проверь и вставь в банк</div>
+          <div class="ui-stack">
+            <span class="ui-copy next">+7 993 636 59 63 <span class="ic">⧉</span></span>
+            <span class="ui-copy sm">Иванов А. С. <span class="ic">⧉</span></span>
+            <span class="ui-copy sm">8 420,00 KGS <span class="ic">⧉</span></span>
+          </div>
+          <div class="ui-buf">В буфере: +7 993 636 59 63</div>
+          <div class="ph-mini">Номер существует · Имя совпадает · Блокировок нет</div>
+          <span class="ui-btn accept w sm">Проверка пройдена — выполнять</span>
+          <span class="ui-btn ghost w sm">Не прошла — в отмену</span>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg new">станет</span>2 · Проверка счёта</div>
+        <div class="phone-body">
+          <div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">Проверка счёта</b><span class="sp">⋮</span></div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <span style="font-size:17px;font-weight:700">8 420 KGS</span>
+            <span class="ph-mini">№ 1305983</span>
+          </div>
+          <div class="ph-sec">Проверь и вставь в банк</div>
+          <div class="ui-stack">
+            <span class="ui-copy next">+7 993 636 59 63 <span class="ic">⧉</span></span>
+            <span class="ui-copy sm">Иванов А. С. <span class="ic">⧉</span></span>
+            <span class="ui-copy sm">8 420,00 KGS <span class="ic">⧉</span></span>
+          </div>
+          <div class="ui-buf">В буфере: +7 993 636 59 63</div>
+          <div class="ph-mini">Номер существует · Имя совпадает · Блокировок нет</div>
+          <span class="ui-btn accept w sm">Проверка пройдена — выполнять</span>
+          <span class="ui-btn ghost w sm">Не прошла — в отмену</span>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>3 · Хаб действий</div>
+        <div class="phone-body">
+          <div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">Заявка</b><span class="ph-mini">#3f9c1a20-…</span><span class="sp">⋮</span></div>
+          <div class="hub-grid" style="grid-template-columns:1fr">
+            <div class="hub-card"><span class="hub-ic g">▶</span><b>Продолжить выполнение</b><span>Открыть форму закрытия</span></div>
+            <div class="hub-card"><span class="hub-ic s">↩</span><b>Вернуть в стакан</b></div>
+            <div class="hub-card"><span class="hub-ic o">⚠</span><b>В конфликтные</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg new">станет</span>3 · Заявка</div>
+        <div class="phone-body">
+          <div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">8 420 KGS</b><span class="ph-mini">№ 1305983</span><span class="sp">⋮</span></div>
+          <div class="ui-live"><span class="ui-dot"></span>USDT 59,940209 ✓ с биржи<span style="margin-left:auto;color:var(--text-tertiary)">▾</span></div>
+          <div class="ui-stack">
+            <span class="ui-copy sm">+7 993 636 59 63 <span class="ic">⧉</span></span>
+            <span class="ui-copy sm">Иванов А. С. <span class="ic">⧉</span></span>
+            <span class="ui-copy sm">8 420,00 KGS <span class="ic">⧉</span></span>
+          </div>
+          <div class="ui-row">
+            <span class="ui-btn og fill sm" style="flex:1.5;font-size:10.5px">Успех · 59,940209 USDT</span>
+            <span class="ui-btn or sm">Не вышло</span>
+          </div>
+          <span class="ui-btn ghost w sm">Вернуть в стакан</span>
+          <div class="sheet" style="padding:2px 9px">
+            <div class="row" style="font-size:11px;padding:5px 0"><i>☰</i>Все ордера с биржи</div>
+            <div class="row" style="font-size:11px;padding:5px 0"><i>✂</i>Отвязать ордер</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>4 · Шаг 1 + Шаг 2</div>
+        <div class="phone-body">
+          <div class="meta-row"><span class="mchip info">8 420 KGS</span><span class="mchip muted">Тип: —</span></div>
+          <div class="step-hd">Шаг 1 — тип закрытия</div>
+          <div class="type-grid" style="grid-template-columns:1fr">
+            <div class="type-opt"><span class="type-ic blue">💳</span><b>Обычная</b></div>
+            <div class="type-opt"><span class="type-ic purple">△</span><b>Треугольная</b></div>
+            <div class="type-opt"><span class="type-ic orange">💼</span><b>Совмещённая</b></div>
+          </div>
+          <div class="step-hd" style="margin-top:10px">Шаг 2 — действие</div>
+          <div class="act-stack">
+            <div class="act-btn"><span class="act-ic g">✓</span><span class="act-txt"><b>Успешное исполнение</b></span>›</div>
+            <div class="act-btn"><span class="act-ic r">✕</span><span class="act-txt"><b>Не получилось</b></span>›</div>
+          </div>
+          <div class="ph-mini">Сначала выберите тип закрытия.</div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap gone-cap"><span class="tg gone">станет</span>4</div>
+        <div class="gone-body"><span class="gx">✕</span><b>Экран убран</b><span>тип определяется по источнику денег</span></div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>5 · Мастер, шаг 1</div>
+        <div class="phone-body">
+          <div class="stp"><span class="dot cur">1</span><span class="ln"></span><span class="dot">2</span><span class="ln"></span><span class="dot">3</span></div>
+          <div class="ui-lbl">Выбери проблему</div>
+          <div class="tagrow">
+            <span class="tagchip sel">Без проблем</span><span class="tagchip">Другая валюта</span><span class="tagchip">Переплата</span>
+          </div>
+          <span class="ui-btn primary w sm">Далее</span>
+          <div class="ph-mini">Уже выбрано «Без проблем» — шаг существует, чтобы нажать «Далее»</div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg new">станет</span>4 · Закрытие</div>
+        <div class="phone-body">
+          <div class="ph-top"><b style="color:var(--text-primary)">Успех · 8 420 KGS</b><span class="sp">✕</span><span>⋮</span></div>
+          <span class="ui-chip exc" style="align-self:flex-start">△ Биржа ▸</span>
+          <div class="ui-inp" style="font-size:11.5px">Ордер 1305983 · 时来运转</div>
+          <div class="ph-sec">Себестоимость, USDT</div>
+          <div class="ui-inp lock" style="font-size:11.5px">59,940209 <span class="lockic">✓ с биржи</span></div>
+          <div class="ph-sec">Кому платили</div>
+          <div class="ui-inp lock" style="font-size:11.5px"><b>Иванов А. С.</b> <span class="lockic">···63</span></div>
+          <div class="photo-phone" style="height:88px;padding:9px"><b>Из буфера</b><span>Камера</span></div>
+          <span class="ui-btn og fill w sm" style="font-size:10.5px">Закрыть · 8 420 KGS / 59,940209 USDT</span>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>6 · Мастер, шаг 2</div>
+        <div class="phone-body">
+          <div class="stp"><span class="dot">1</span><span class="ln"></span><span class="dot cur">2</span><span class="ln"></span><span class="dot">3</span></div>
+          <div class="ui-lbl">Себестоимость заявки, USDT</div>
+          <div class="ui-inp ph">введите значение</div>
+          <div class="ph-mini">Оператор переписывает 59.940209 глазами из окна биржи</div>
+          <span class="ui-btn primary w sm">Далее</span>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap gone-cap"><span class="tg gone">станет</span>6</div>
+        <div class="gone-body"><span class="gx">✕</span><b>Экран убран</b><span>это поле стоит в форме слева</span></div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>7 · Мастер, шаг 3</div>
+        <div class="phone-body">
+          <div class="stp"><span class="dot">1</span><span class="ln"></span><span class="dot">2</span><span class="ln"></span><span class="dot cur">3</span></div>
+          <div class="ui-drop">+ выбрать файл</div>
+          <div class="ui-row" style="margin-top:10px">
+            <span class="ui-btn ghost sm">Назад</span><span class="ui-btn danger sm">Как задержку</span><span class="ui-btn accept sm">Завершить</span></div>
+          <div class="ph-mini">«Как задержку» — красная, в 8px от зелёной</div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap gone-cap"><span class="tg gone">станет</span>7</div>
+        <div class="gone-body"><span class="gx">✕</span><b>Экран убран</b><span>файлы и кнопка — в той же форме</span></div>
+      </div>
+    </div>
+  </div>
+
+<h3>Успех через кошелёк · обычная</h3>
+<div class="flowmeta">
+  <span class="fm"><b>7</b> экранов <span class="ar">→</span> <b class="g">4</b></span>
+  <span class="fm"><b>43</b> действий <span class="ar">→</span> <b class="g">18</b></span>
+  <span class="fm minus">кликов меньше на 25</span>
+  <span class="fmnote">Строки биржи на экране заявки нет вовсе — ордера здесь не бывает. Себестоимость считает сервер по кошельку, оператор её не вводит и сейчас.</span>
+</div>
+<div class="sync">
+    <div class="syncgrid">
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>1 · Стакан</div>
+        <div class="phone-body">
+          <div class="ph-top"><span class="seg"><span class="on" style="padding:2px 7px">KGS</span></span><span class="ui-dot"></span>live<span class="sp">🔍</span></div>
+          <div class="ui-card">
+            <div class="ui-card-h" style="padding:10px"><span class="ui-card-id">8 420 KGS</span>
+              <span class="ui-card-hr"><span class="ui-ttl">TTL 41</span></span></div>
+            <div class="ui-card-c" style="padding:10px;gap:8px">
+              <div class="ui-fields" style="gap:6px">
+                <div><span class="ui-f-l">Способ:</span><span class="ui-f-v">Перевод по номеру</span></div>
+                <div><span class="ui-f-l">Телефон:</span><span class="ui-f-v mask">+7 ··· ··· ·· 63</span></div>
+                <div><span class="ui-f-l">Имя:</span><span class="ui-f-v mask">И···· А. С.</span></div>
+                <div><span class="ui-f-l">Банк:</span><span class="ui-f-v">Т-Банк</span></div>
+              </div>
+              <span class="ui-btn accept w sm">Взять в работу</span>
+            </div>
+          </div>
+          <div class="ui-card" style="opacity:.45">
+            <div class="ui-card-h" style="padding:10px"><span class="ui-card-id">3 100 KGS</span>
+              <span class="ui-card-hr"><span class="ui-ttl">TTL 22</span></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg new">станет</span>1 · Стакан</div>
+        <div class="phone-body">
+          <div class="ph-top"><span class="seg"><span class="on" style="padding:2px 7px">KGS</span></span><span class="ui-dot"></span>live<span class="sp">🔍</span></div>
+          <div class="ph-mini">В работе: 8 420 · 3 100 · 12 750</div>
+          <div class="ui-card">
+            <div class="ui-card-h" style="padding:10px"><span class="ui-card-id">8 420 KGS</span>
+              <span class="ui-card-hr"><span class="ui-ttl">TTL 41</span></span></div>
+            <div class="ui-card-c" style="padding:10px;gap:8px">
+              <div class="ui-fields" style="gap:6px">
+                <div><span class="ui-f-l">Способ:</span><span class="ui-f-v">Перевод по номеру</span></div>
+                <div><span class="ui-f-l">Телефон:</span><span class="ui-f-v mask">+7 ··· ··· ·· 63</span></div>
+                <div><span class="ui-f-l">Имя:</span><span class="ui-f-v mask">И···· А. С.</span></div>
+                <div><span class="ui-f-l">Банк:</span><span class="ui-f-v">Т-Банк</span></div>
+              </div>
+              <span class="ui-btn accept w sm">Взять в работу</span>
+            </div>
+          </div>
+          <div class="ui-card" style="opacity:.45">
+            <div class="ui-card-h" style="padding:10px"><span class="ui-card-id">3 100 KGS</span>
+              <span class="ui-card-hr"><span class="ui-ttl">TTL 22</span></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>2 · Проверка счёта</div>
+        <div class="phone-body">
+          <div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">Проверка счёта</b><span class="sp">⋮</span></div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <span style="font-size:17px;font-weight:700">8 420 KGS</span>
+            <span class="ph-mini">№ 1305984</span>
+          </div>
+          <div class="ph-sec">Проверь и вставь в банк</div>
+          <div class="ui-stack">
+            <span class="ui-copy next">+7 903 118 22 07 <span class="ic">⧉</span></span>
+            <span class="ui-copy sm">Петрова М. И. <span class="ic">⧉</span></span>
+            <span class="ui-copy sm">8 420,00 KGS <span class="ic">⧉</span></span>
+          </div>
+          <div class="ui-buf">В буфере: +7 903 118 22 07</div>
+          <div class="ph-mini">Номер существует · Имя совпадает · Блокировок нет</div>
+          <span class="ui-btn accept w sm">Проверка пройдена — выполнять</span>
+          <span class="ui-btn ghost w sm">Не прошла — в отмену</span>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg new">станет</span>2 · Проверка счёта</div>
+        <div class="phone-body">
+          <div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">Проверка счёта</b><span class="sp">⋮</span></div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <span style="font-size:17px;font-weight:700">8 420 KGS</span>
+            <span class="ph-mini">№ 1305984</span>
+          </div>
+          <div class="ph-sec">Проверь и вставь в банк</div>
+          <div class="ui-stack">
+            <span class="ui-copy next">+7 903 118 22 07 <span class="ic">⧉</span></span>
+            <span class="ui-copy sm">Петрова М. И. <span class="ic">⧉</span></span>
+            <span class="ui-copy sm">8 420,00 KGS <span class="ic">⧉</span></span>
+          </div>
+          <div class="ui-buf">В буфере: +7 903 118 22 07</div>
+          <div class="ph-mini">Номер существует · Имя совпадает · Блокировок нет</div>
+          <span class="ui-btn accept w sm">Проверка пройдена — выполнять</span>
+          <span class="ui-btn ghost w sm">Не прошла — в отмену</span>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>3 · Хаб действий</div>
+        <div class="phone-body">
+          <div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">Заявка</b><span class="ph-mini">#3f9c1a20-…</span><span class="sp">⋮</span></div>
+          <div class="hub-grid" style="grid-template-columns:1fr">
+            <div class="hub-card"><span class="hub-ic g">▶</span><b>Продолжить выполнение</b><span>Открыть форму закрытия</span></div>
+            <div class="hub-card"><span class="hub-ic s">↩</span><b>Вернуть в стакан</b></div>
+            <div class="hub-card"><span class="hub-ic o">⚠</span><b>В конфликтные</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg new">станет</span>3 · Заявка</div>
+        <div class="phone-body">
+          <div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">8 420 KGS</b><span class="ph-mini">№ 1305984</span><span class="sp">⋮</span></div>
+          <div class="ui-stack">
+            <span class="ui-copy sm">+7 903 118 22 07 <span class="ic">⧉</span></span>
+            <span class="ui-copy sm">Петрова М. И. <span class="ic">⧉</span></span>
+            <span class="ui-copy sm">8 420,00 KGS <span class="ic">⧉</span></span>
+          </div>
+          <div class="ui-row">
+            <span class="ui-btn og sm" style="flex:1.3">Успех</span>
+            <span class="ui-btn or sm">Не вышло</span>
+          </div>
+          <span class="ui-btn ghost w sm">Вернуть в стакан</span>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>4 · Шаг 1 + Шаг 2</div>
+        <div class="phone-body">
+          <div class="meta-row"><span class="mchip info">8 420 KGS</span><span class="mchip muted">Тип: —</span></div>
+          <div class="step-hd">Шаг 1 — тип закрытия</div>
+          <div class="type-grid" style="grid-template-columns:1fr">
+            <div class="type-opt"><span class="type-ic blue">💳</span><b>Обычная</b></div>
+            <div class="type-opt"><span class="type-ic purple">△</span><b>Треугольная</b></div>
+            <div class="type-opt"><span class="type-ic orange">💼</span><b>Совмещённая</b></div>
+          </div>
+          <div class="step-hd" style="margin-top:10px">Шаг 2 — действие</div>
+          <div class="act-stack">
+            <div class="act-btn"><span class="act-ic g">✓</span><span class="act-txt"><b>Успешное исполнение</b></span>›</div>
+            <div class="act-btn"><span class="act-ic r">✕</span><span class="act-txt"><b>Не получилось</b></span>›</div>
+          </div>
+          <div class="ph-mini">Сначала выберите тип закрытия.</div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap gone-cap"><span class="tg gone">станет</span>4</div>
+        <div class="gone-body"><span class="gx">✕</span><b>Экран убран</b><span>тип определяется по источнику денег</span></div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>5 · Мастер, шаг 1</div>
+        <div class="phone-body">
+          <div class="stp"><span class="dot cur">1</span><span class="ln"></span><span class="dot">2</span><span class="ln"></span><span class="dot">3</span></div>
+          <div class="ui-lbl">Выбери проблему</div>
+          <div class="tagrow">
+            <span class="tagchip sel">Без проблем</span><span class="tagchip">Другая валюта</span><span class="tagchip">Переплата</span>
+          </div>
+          <span class="ui-btn primary w sm">Далее</span>
+          <div class="ph-mini">Уже выбрано «Без проблем» — шаг существует, чтобы нажать «Далее»</div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg new">станет</span>4 · Закрытие</div>
+        <div class="phone-body">
+          <div class="ph-top"><b style="color:var(--text-primary)">Успех · 8 420 KGS</b><span class="sp">✕</span><span>⋮</span></div>
+          <span class="ui-chip wal" style="align-self:flex-start">▢ Кошелёк ▸</span>
+          <div class="ui-inp" style="font-size:11.5px">KGS-1 · остаток 240 000</div>
+          <div class="ph-sec">Списываем с кошелька</div>
+          <div class="ui-inp lock" style="font-size:11.5px">8 420,00 <span class="lockic">= сумме</span></div>
+          <div class="ph-sec">Кому платили</div>
+          <div class="ui-inp lock" style="font-size:11.5px"><b>Петрова М. И.</b> <span class="lockic">···07</span></div>
+          <div class="photo-phone" style="height:88px;padding:9px"><b>Из буфера</b><span>Камера</span></div>
+          <span class="ui-btn og fill w sm" style="font-size:10.5px">Закрыть · 8 420 KGS · KGS-1</span>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>6 · Мастер, шаг 2</div>
+        <div class="phone-body">
+          <div class="stp"><span class="dot">1</span><span class="ln"></span><span class="dot cur">2</span><span class="ln"></span><span class="dot">3</span></div>
+          <div class="ui-lbl">Кошелёк</div>
+          <div class="ui-inp ph">выбрать кошелёк</div>
+          <div class="ui-lbl">Сумма списания, KGS</div>
+          <div class="ui-inp ph">введите значение</div>
+          <span class="ui-btn primary w sm">Далее</span>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap gone-cap"><span class="tg gone">станет</span>6</div>
+        <div class="gone-body"><span class="gx">✕</span><b>Экран убран</b><span>это поле стоит в форме слева</span></div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>7 · Мастер, шаг 3</div>
+        <div class="phone-body">
+          <div class="stp"><span class="dot">1</span><span class="ln"></span><span class="dot">2</span><span class="ln"></span><span class="dot cur">3</span></div>
+          <div class="ui-drop">+ выбрать файл</div>
+          <div class="ui-row" style="margin-top:10px">
+            <span class="ui-btn ghost sm">Назад</span><span class="ui-btn danger sm">Как задержку</span><span class="ui-btn accept sm">Завершить</span></div>
+          <div class="ph-mini">«Как задержку» — красная, в 8px от зелёной</div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap gone-cap"><span class="tg gone">станет</span>7</div>
+        <div class="gone-body"><span class="gx">✕</span><b>Экран убран</b><span>файлы и кнопка — в той же форме</span></div>
+      </div>
+    </div>
+  </div>
+
+<h3>Неуспех · отказ</h3>
+<div class="flowmeta">
+  <span class="fm"><b>7</b> экранов <span class="ar">→</span> <b class="g">4</b></span>
+  <span class="fm"><b>36</b> действий <span class="ar">→</span> <b class="g">15</b></span>
+  <span class="fm minus">кликов меньше на 21</span>
+  <span class="fmnote">Ни источника, ни USDT, ни кошелька: отмена есть отмена. Скрин первым делом — из него ИИ и читает причину.</span>
+</div>
+<div class="sync">
+    <div class="syncgrid">
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>1 · Стакан</div>
+        <div class="phone-body">
+          <div class="ph-top"><span class="seg"><span class="on" style="padding:2px 7px">KGS</span></span><span class="ui-dot"></span>live<span class="sp">🔍</span></div>
+          <div class="ui-card">
+            <div class="ui-card-h" style="padding:10px"><span class="ui-card-id">8 420 KGS</span>
+              <span class="ui-card-hr"><span class="ui-ttl">TTL 41</span></span></div>
+            <div class="ui-card-c" style="padding:10px;gap:8px">
+              <div class="ui-fields" style="gap:6px">
+                <div><span class="ui-f-l">Способ:</span><span class="ui-f-v">Перевод по номеру</span></div>
+                <div><span class="ui-f-l">Телефон:</span><span class="ui-f-v mask">+7 ··· ··· ·· 63</span></div>
+                <div><span class="ui-f-l">Имя:</span><span class="ui-f-v mask">И···· А. С.</span></div>
+                <div><span class="ui-f-l">Банк:</span><span class="ui-f-v">Т-Банк</span></div>
+              </div>
+              <span class="ui-btn accept w sm">Взять в работу</span>
+            </div>
+          </div>
+          <div class="ui-card" style="opacity:.45">
+            <div class="ui-card-h" style="padding:10px"><span class="ui-card-id">3 100 KGS</span>
+              <span class="ui-card-hr"><span class="ui-ttl">TTL 22</span></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg new">станет</span>1 · Стакан</div>
+        <div class="phone-body">
+          <div class="ph-top"><span class="seg"><span class="on" style="padding:2px 7px">KGS</span></span><span class="ui-dot"></span>live<span class="sp">🔍</span></div>
+          <div class="ph-mini">В работе: 8 420 · 3 100 · 12 750</div>
+          <div class="ui-card">
+            <div class="ui-card-h" style="padding:10px"><span class="ui-card-id">8 420 KGS</span>
+              <span class="ui-card-hr"><span class="ui-ttl">TTL 41</span></span></div>
+            <div class="ui-card-c" style="padding:10px;gap:8px">
+              <div class="ui-fields" style="gap:6px">
+                <div><span class="ui-f-l">Способ:</span><span class="ui-f-v">Перевод по номеру</span></div>
+                <div><span class="ui-f-l">Телефон:</span><span class="ui-f-v mask">+7 ··· ··· ·· 63</span></div>
+                <div><span class="ui-f-l">Имя:</span><span class="ui-f-v mask">И···· А. С.</span></div>
+                <div><span class="ui-f-l">Банк:</span><span class="ui-f-v">Т-Банк</span></div>
+              </div>
+              <span class="ui-btn accept w sm">Взять в работу</span>
+            </div>
+          </div>
+          <div class="ui-card" style="opacity:.45">
+            <div class="ui-card-h" style="padding:10px"><span class="ui-card-id">3 100 KGS</span>
+              <span class="ui-card-hr"><span class="ui-ttl">TTL 22</span></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>2 · Проверка счёта</div>
+        <div class="phone-body">
+          <div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">Проверка счёта</b><span class="sp">⋮</span></div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <span style="font-size:17px;font-weight:700">8 420 KGS</span>
+            <span class="ph-mini">№ 1305985</span>
+          </div>
+          <div class="ph-sec">Проверь и вставь в банк</div>
+          <div class="ui-stack">
+            <span class="ui-copy next">+7 917 540 61 88 <span class="ic">⧉</span></span>
+            <span class="ui-copy sm">Сидоров К. П. <span class="ic">⧉</span></span>
+            <span class="ui-copy sm">8 420,00 KGS <span class="ic">⧉</span></span>
+          </div>
+          <div class="ui-buf">В буфере: +7 917 540 61 88</div>
+          <div class="ph-mini">Номер существует · Имя совпадает · Блокировок нет</div>
+          <span class="ui-btn accept w sm">Проверка пройдена — выполнять</span>
+          <span class="ui-btn ghost w sm">Не прошла — в отмену</span>
+          <div class="ph-mini" style="text-align:center">это будет 4-я отмена за смену</div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg new">станет</span>2 · Проверка счёта</div>
+        <div class="phone-body">
+          <div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">Проверка счёта</b><span class="sp">⋮</span></div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <span style="font-size:17px;font-weight:700">8 420 KGS</span>
+            <span class="ph-mini">№ 1305985</span>
+          </div>
+          <div class="ph-sec">Проверь и вставь в банк</div>
+          <div class="ui-stack">
+            <span class="ui-copy next">+7 917 540 61 88 <span class="ic">⧉</span></span>
+            <span class="ui-copy sm">Сидоров К. П. <span class="ic">⧉</span></span>
+            <span class="ui-copy sm">8 420,00 KGS <span class="ic">⧉</span></span>
+          </div>
+          <div class="ui-buf">В буфере: +7 917 540 61 88</div>
+          <div class="ph-mini">Номер существует · Имя совпадает · Блокировок нет</div>
+          <span class="ui-btn accept w sm">Проверка пройдена — выполнять</span>
+          <span class="ui-btn ghost w sm">Не прошла — в отмену</span>
+          <div class="ph-mini" style="text-align:center">это будет 4-я отмена за смену</div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>3 · Хаб действий</div>
+        <div class="phone-body">
+          <div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">Заявка</b><span class="ph-mini">#3f9c1a20-…</span><span class="sp">⋮</span></div>
+          <div class="hub-grid" style="grid-template-columns:1fr">
+            <div class="hub-card"><span class="hub-ic g">▶</span><b>Продолжить выполнение</b><span>Открыть форму закрытия</span></div>
+            <div class="hub-card"><span class="hub-ic s">↩</span><b>Вернуть в стакан</b></div>
+            <div class="hub-card"><span class="hub-ic o">⚠</span><b>В конфликтные</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg new">станет</span>3 · Заявка</div>
+        <div class="phone-body">
+          <div class="ph-top"><span>‹</span><b style="color:var(--text-primary)">8 420 KGS</b><span class="ph-mini">№ 1305985</span><span class="sp">⋮</span></div>
+          <div class="ui-stack">
+            <span class="ui-copy sm">+7 917 540 61 88 <span class="ic">⧉</span></span>
+            <span class="ui-copy sm">Сидоров К. П. <span class="ic">⧉</span></span>
+            <span class="ui-copy sm">8 420,00 KGS <span class="ic">⧉</span></span>
+          </div>
+          <div class="ui-row">
+            <span class="ui-btn og sm" style="flex:1.3">Успех</span>
+            <span class="ui-btn or fill sm">Не вышло</span>
+          </div>
+          <span class="ui-btn ghost w sm">Вернуть в стакан</span>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>4 · Шаг 1 + Шаг 2</div>
+        <div class="phone-body">
+          <div class="meta-row"><span class="mchip info">8 420 KGS</span><span class="mchip muted">Тип: —</span></div>
+          <div class="step-hd">Шаг 1 — тип закрытия</div>
+          <div class="type-grid" style="grid-template-columns:1fr">
+            <div class="type-opt"><span class="type-ic blue">💳</span><b>Обычная</b></div>
+            <div class="type-opt"><span class="type-ic purple">△</span><b>Треугольная</b></div>
+            <div class="type-opt"><span class="type-ic orange">💼</span><b>Совмещённая</b></div>
+          </div>
+          <div class="step-hd" style="margin-top:10px">Шаг 2 — действие</div>
+          <div class="act-stack">
+            <div class="act-btn"><span class="act-ic g">✓</span><span class="act-txt"><b>Успешное исполнение</b></span>›</div>
+            <div class="act-btn"><span class="act-ic r">✕</span><span class="act-txt"><b>Не получилось</b></span>›</div>
+          </div>
+          <div class="ph-mini">Сначала выберите тип закрытия.</div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap gone-cap"><span class="tg gone">станет</span>4</div>
+        <div class="gone-body"><span class="gx">✕</span><b>Экран убран</b><span>тип определяется по источнику денег</span></div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>5 · Мастер, шаг 1</div>
+        <div class="phone-body">
+          <div class="stp"><span class="dot cur">1</span><span class="ln"></span><span class="dot">2</span><span class="ln"></span><span class="dot">3</span></div>
+          <div class="ui-lbl">Выбери проблему</div>
+          <div class="tagrow">
+            <span class="tagchip sel">Без проблем</span><span class="tagchip">Другая валюта</span><span class="tagchip">Переплата</span>
+          </div>
+          <span class="ui-btn primary w sm">Далее</span>
+          <div class="ph-mini">Уже выбрано «Без проблем» — шаг существует, чтобы нажать «Далее»</div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg new">станет</span>4 · Отмена</div>
+        <div class="phone-body">
+          <div class="ph-top"><b style="color:var(--color-error)">Не получилось · 8 420 KGS</b><span class="sp">✕</span><span>⋮</span></div>
+          <div class="ph-sec">Скрин отказа</div>
+          <div class="photo-phone" style="height:88px;padding:9px;border-style:solid;border-color:rgba(39,174,96,.4)"><b style="color:var(--color-success)">✓ загружен</b><span>Заменить</span></div>
+          <div class="ph-sec">Причина</div>
+          <div class="tagrow">
+            <span class="tagchip sel">Банк отклонил</span><span class="tagchip">Реквизиты неверны</span>
+          </div>
+          <div class="ui-reason" style="font-size:10.5px">ИИ прочитал скрин: «Банк отклонил» — совпало</div>
+          <span class="ui-btn or w sm">Отклонить заявку · 8 420 KGS</span>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>6 · Мастер, шаг 2</div>
+        <div class="phone-body">
+          <div class="stp"><span class="dot">1</span><span class="ln"></span><span class="dot cur">2</span><span class="ln"></span><span class="dot">3</span></div>
+          <div class="ui-lbl">Скрин отказа</div>
+          <div class="ui-drop">+ выбрать файл</div>
+          <div class="ui-lbl">Скрин блокировки</div>
+          <div class="ui-drop">+ выбрать файл</div>
+          <span class="ui-btn primary w sm">Далее</span>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap gone-cap"><span class="tg gone">станет</span>6</div>
+        <div class="gone-body"><span class="gx">✕</span><b>Экран убран</b><span>это поле стоит в форме слева</span></div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap"><span class="tg now">сейчас</span>7 · Мастер, шаг 3</div>
+        <div class="phone-body">
+          <div class="stp"><span class="dot">1</span><span class="ln"></span><span class="dot">2</span><span class="ln"></span><span class="dot cur">3</span></div>
+          <div class="ui-lbl">Комментарий</div>
+          <div class="ui-inp ph">необязательно</div>
+          <div class="ui-row" style="margin-top:10px">
+            <span class="ui-btn ghost sm">Назад</span><span class="ui-btn danger sm">Отклонить заявку</span></div>
+        </div>
+      </div>
+      <div class="phone">
+        <div class="phone-cap gone-cap"><span class="tg gone">станет</span>7</div>
+        <div class="gone-body"><span class="gx">✕</span><b>Экран убран</b><span>файлы и кнопка — в той же форме</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tw"><table>
+    <thead><tr><th>Сценарий</th><th class="n">Экранов</th><th class="n">Действий</th><th class="n">Меньше на</th><th>Доля смены</th></tr></thead>
+    <tbody>
+      <tr><td>Успех через биржу</td><td class="n">7 → <b class="now">4</b></td><td class="n">45 → 19</td><td class="n now">26</td><td>~45%</td></tr>
+      <tr><td>Успех через кошелёк</td><td class="n">7 → <b class="now">4</b></td><td class="n">43 → 18</td><td class="n now">25</td><td>~30%</td></tr>
+      <tr><td>Неуспех</td><td class="n">7 → <b class="now">4</b></td><td class="n">36 → 15</td><td class="n now">21</td><td>~15%</td></tr>
+      <tr class="hl"><td>Эти три</td><td class="n">7 → <b>4</b></td><td class="n">−25 в среднем</td><td class="n">—</td><td>~90%</td></tr>
+      <tr><td style="color:var(--text-tertiary)">Остальное — переплата, другая валюта, ЧС, конфликт</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>~10%</td></tr>
+    </tbody>
+  </table></div>
+  <p class="src">Экраны посчитаны по коду: стакан, проверка счёта, хаб, экран «Шаг 1 + Шаг 2» и трёхшаговый мастер закрытия — <span class="mono">step 0/1/2</span> и в успешной, и в неуспешной модалке. Действия — оценка по тем же правилам, что в разделе 10.</p>
+</div></div></section><section class="step"><div class="wrapx"><div class="step-k">Итог</div><h2 class="step-h">Что это <span class="g">даёт нам</span></h2><div class="tiles"><div class="tile2"><div class="v"><span class="o">7</span><span class="a">→</span><span class="n">4</span></div><div class="k">экрана на заявку</div></div><div class="tile2"><div class="v"><span class="o">45</span><span class="a">→</span><span class="n">19</span></div><div class="k">действий на заявку</div></div><div class="tile2 blue"><div class="v"><span class="o">100</span><span class="a">→</span><span class="n">125</span></div><div class="k">заказов за смену</div></div></div><div class="propose">Предлагаю включить это сначала на <b>паре добровольцев</b> — сравним по факту, сколько успеваем за смену. Не зайдёт — вернём старое одним переключателем, ничего не теряем. Зайдёт — раскатаем на всех. <b>Кто готов попробовать первым?</b></div><div class="taglist"><span class="t g">✓ Меньше экранов</span><span class="t bl">✓ Меньше действий</span><span class="t g">✓ Больше заказов</span></div><div class="foot">То же самое, только короче — учиться заново не надо. Для кошелька и отмены путь такой же: 4 экрана вместо 7, меняется только последний под ситуацию.</div></div></section><script>
+(function(){var p=document.getElementById('prog');function u(){var h=document.documentElement;var d=(h.scrollHeight-h.clientHeight)||1;p.style.width=((h.scrollTop/d)*100)+'%';}document.addEventListener('scroll',u,{passive:true});u();})();
+
+(function(){
+  var chip=document.getElementById('srcChip'); if(!chip) return;
+  var order=['exc','wal','both'];
+  var meta={exc:{cls:'ui-chip exc',label:'\u25b3 \u0411\u0438\u0440\u0436\u0430 \u25b8'},
+            wal:{cls:'ui-chip wal',label:'\u25a2 \u041a\u043e\u0448\u0435\u043b\u0451\u043a \u25b8'},
+            both:{cls:'ui-chip',label:'\u25c7 \u0421\u043e\u0432\u043c\u0435\u0449\u0451\u043d\u043a\u0430 \u25b8'}};
+  var blabel={exc:'\u0417\u0430\u043a\u0440\u044b\u0442\u044c \u00b7 8 420 KGS / 59,940209 USDT',
+              wal:'\u0417\u0430\u043a\u0440\u044b\u0442\u044c \u00b7 8 420 KGS \u00b7 KGS-1',
+              both:'\u0417\u0430\u043a\u0440\u044b\u0442\u044c \u00b7 8 420 KGS \u00b7 \u0431\u0438\u0440\u0436\u0430 + \u043a\u043e\u0448\u0435\u043b\u0451\u043a'};
+  var phone=chip.closest('.phone-body'); var i=0;
+  function render(){var k=order[i];chip.className=meta[k].cls;chip.textContent=meta[k].label;
+    phone.querySelectorAll('.srcpane').forEach(function(pane){pane.hidden=(pane.getAttribute('data-pane')!==k);});
+    var b=phone.querySelector('.srcbtn'); if(b) b.textContent=blabel[k];}
+  chip.addEventListener('click',function(){i=(i+1)%order.length;render();});
+  render();
+})();
+
+(function(){
+  var row=document.getElementById('rsnRow'); if(!row) return;
+  var body=row.closest('.phone-body');
+  function render(k){
+    row.querySelectorAll('.rsn').forEach(function(b){b.classList.toggle('sel',b.getAttribute('data-r')===k);});
+    body.querySelectorAll('.rpane').forEach(function(p){p.hidden=(p.getAttribute('data-r')!==k);});
+  }
+  row.addEventListener('click',function(e){var b=e.target.closest('.rsn'); if(b) render(b.getAttribute('data-r'));});
+  render('cur');
+})();
+</script>
